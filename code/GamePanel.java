@@ -47,7 +47,7 @@ public class GamePanel extends JPanel
 
 		
 	
-		imageFX = new TintFX (this);
+
 		imageFX2 = new GrayScaleFX2 (this);
 
 	}

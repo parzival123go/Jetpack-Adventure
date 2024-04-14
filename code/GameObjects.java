@@ -3,6 +3,8 @@ public abstract class GameObjects {
     public int y;
     public int dx;
     public int dy;
+    public int width;
+    public int height;
     public Boolean collision;
 
     public void spawn(){
