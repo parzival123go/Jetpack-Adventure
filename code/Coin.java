@@ -3,45 +3,48 @@ import java.awt.Image;
 
 import javax.swing.JPanel;
 
-public class Missile extends Obstacles{
+public class Coin extends Obstacles{
     
-    Image missile;
+    Image coin;
     JPanel panel;
+
     SoundManager sm;
-    // when called, set a random y
-    public Missile(int y, MainCharacter mc, JPanel panel){
+
+    public Coin(int y, MainCharacter mc, JPanel panel){
+        this.panel = panel;
         this.mc = mc;
-        this.y = y;
-        x = panel.getWidth();  // start at right side at random y
+        x = panel.getWidth();
         dx = -10;
         dy = 0;
-        this.panel = panel;
         isVisible = true;
+
         loadImages();
         sm = SoundManager.getInstance();
     }
 
     public void draw(Graphics2D g2){
         if(isVisible){
-            g2.drawImage(missile, x, y, width, height, null);
+            g2.drawImage(coin, x, y, width, height, null);
         }
     }
-    
+
     public void update(){
         if(collidesWithMc(x, y, width, height)){
             dx = 0;
             isVisible = false;
             
-            mc.damageMc();
+            mc.addCoins(1);  // each coin is worth 1
         }
         else{
             x+=dx;
         }
     }
-    
+
     public void loadImages(){
-        missile = ImageManager.loadImage("images/missile.png");
-        height = missile.getHeight(panel);
-        width = missile.getWidth(panel);
+        coin = ImageManager.loadImage("images/coin.png");
+        width = coin.getWidth(panel);
+        height = coin.getHeight(panel);
     }
+
+
 }

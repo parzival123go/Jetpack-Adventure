@@ -7,11 +7,11 @@ public class Laser extends Obstacles{
     
     private JPanel panel;
     private Image laser;
-
-    public Laser(int x, MainCharacter mc, JPanel panel){
+    // when called, set a random y
+    public Laser(int y, MainCharacter mc, JPanel panel){
         this.mc = mc;
-        this.x = x;
-        this.y = panel.getWidth();
+        this.y = y;
+        x = panel.getWidth();  // start at right side at random y
         dx = -5;
         dy = 0;
         this.panel = panel;
