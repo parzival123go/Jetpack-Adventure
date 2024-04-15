@@ -1,5 +1,6 @@
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
 import javax.swing.JPanel;
@@ -11,6 +12,8 @@ public class MainCharacter extends Character{
     private Boolean doubleCoins;
     private JPanel panel;
     private Boolean isOnGround;
+    private int health;
+
     private HashMap<String, Animation> animations; // will contain all animations
     // animations keys: fly, run, jump, dyingFlying, dyingStanding
     private SoundManager sm;
@@ -19,6 +22,7 @@ public class MainCharacter extends Character{
         loadImages();
         dy = 5;
         dx = 5;
+        health = 20;
         this.panel = panel;
         this.sm = SoundManager.getInstance();
     }
@@ -96,6 +100,17 @@ public class MainCharacter extends Character{
 
     public void move(){
         // might not need this
+    }
+
+    public void damageMc(){
+        if(damageable){
+            health--;
+        }
+        return;
+    }
+
+    public Rectangle2D.Double getBoundingRectangle() {
+        return new Rectangle2D.Double (x, y, width, height);
     }
 
     public void loadImages(){
