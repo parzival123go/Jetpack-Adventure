@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 public class MainCharacter extends Character{
     private Boolean isDead;
     private int lives;
+    private int coins;
     private Boolean damageable;
     private Boolean doubleCoins;
     private JPanel panel;
@@ -220,6 +221,23 @@ public class MainCharacter extends Character{
 
     public void setDoubleCoins(Boolean doubleCoins) {
         this.doubleCoins = doubleCoins;
+    }
+
+    public int getCoins() {
+        return this.coins;
+    }
+
+    public void setCoins(int coins) {
+        this.coins = coins;
+    }
+
+    public void addCoins(int amnt){
+        if(doubleCoins){
+            this.coins+=2*amnt;
+        }
+        else{
+            this.coins+=amnt;
+        }
     }
 
     public int getDy(){
