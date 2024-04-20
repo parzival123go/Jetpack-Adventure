@@ -1,3 +1,4 @@
+import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
 public abstract class Obstacles extends GameObjects{
@@ -14,4 +15,14 @@ public abstract class Obstacles extends GameObjects{
         return myRect.intersects(mcRect); 
     }
 
+    public void draw(Graphics2D g2){
+
+    }
+
+    public int getX(){
+        return x;
+    }
+    public int getY(){
+        return y;
+    }
 }

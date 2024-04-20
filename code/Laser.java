@@ -5,14 +5,14 @@ import javax.swing.JPanel;
 
 public class Laser extends Obstacles{
     
-    private JPanel panel;
+    private GameWindow panel;
     private Image laser;
     // when called, set a random y
-    public Laser(int y, MainCharacter mc, JPanel panel){
+    public Laser(int x, int y, MainCharacter mc, GameWindow panel){
         this.mc = mc;
         this.y = y;
-        x = panel.getWidth();  // start at right side at random y
-        dx = -5;
+        this.x = x;
+        dx = -10;
         dy = 0;
         this.panel = panel;
         isVisible = true;
@@ -36,8 +36,10 @@ public class Laser extends Obstacles{
     }
 
     public void loadImages(){
-        laser = ImageManager.loadImage("images/laser.png");
-        height = laser.getHeight(panel);
-        width = laser.getWidth(panel);
+        laser = ImageManager.loadImage("code/images/laser.png");
+        // height = laser.getHeight(panel);
+        // width = laser.getWidth(panel);
+        height = 180;   // 720/4
+        width = 320;    // 1280/4
     }
 }

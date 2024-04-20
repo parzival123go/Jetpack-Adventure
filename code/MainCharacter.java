@@ -8,8 +8,8 @@ public class MainCharacter extends Character{
     private Boolean isDead;
     private int lives;
     private int coins;
-    private int width=120;
-    private int height = 120;
+    private int width = 200;
+    private int height = 200;
     private Boolean damageable;
     private Boolean doubleCoins;
     private GameWindow gw;
@@ -26,7 +26,7 @@ public class MainCharacter extends Character{
         loadImages();
         dy = 0;
         dx = 0;
-        health = 20;
+        health = 1;
         isDead=false;
         
         this.gw = gw;
@@ -39,7 +39,12 @@ public class MainCharacter extends Character{
         y = gw.getHeight()/2 + 250;
         isOnGround = true;
         flying=false;
+        damageable = true;
+        doubleCoins = false;
+
         animations.get("run").start();
+        // animations.get("dyingStanding").start();
+        // animations.get("dyingFlying").start();
     }
 
     public void update(){
@@ -54,7 +59,7 @@ public class MainCharacter extends Character{
             else
             if(flying && !falling){
                 animations.get("fly").update();
-                y-=5;
+                y-=15;
 
                 if(y<0)
                 y=0;
@@ -62,7 +67,7 @@ public class MainCharacter extends Character{
             else
             if(flying && falling){
                 animations.get("fly").update();
-                y+=5;
+                y+=15;
 
                 if(y>gw.getHeight()/2 + 250){
                     y=gw.getHeight()/2 + 250;
@@ -76,23 +81,31 @@ public class MainCharacter extends Character{
             }
             
         }
-        else{
-            if(isOnGround) animations.get("dyingStanding").update();
-            else animations.get("dyingFlying").update();
+        else {
+            dy = 0;
+            
+            if (isOnGround) {
+                animations.get("dyingStanding").update();
+            } else {
+                animations.get("dyingFlying").update();
+            }
         }
     }
 
     public void fly() {
+        if (isDead) return;
         // When space is pressed, switch to the fly animation
         isOnGround=false;
         flying=true;
         falling=false;
         animations.get("run").stop();
         animations.get("fly").start();
+        
     }
 
 
     public void fall(){
+        if (isDead) return;
         isOnGround=false;
         flying=true;
         falling=true;
@@ -124,6 +137,15 @@ public class MainCharacter extends Character{
     public void damageMc(){
         if(damageable){
             health--;
+            if(health <=0){
+                damageable = false;
+                isDead = true;
+                System.out.println("Player is dead");
+                animations.get("fly").stop();
+                animations.get("run").stop();
+                animations.get("dyingStanding").start();
+                animations.get("dyingFlying").start();
+            }
         }
         return;
     }
@@ -179,11 +201,11 @@ public class MainCharacter extends Character{
         Image animation4 = ImageManager.loadImage("code/images/player/using/dying/dyingFlying004.png");
 
         Animation dyingFlying = new Animation(false);
-        dyingFlying.addFrame(animation0, 20);
-        dyingFlying.addFrame(animation1, 20);
-        dyingFlying.addFrame(animation2, 20);
-        dyingFlying.addFrame(animation3, 20);
-        dyingFlying.addFrame(animation4, 20);
+        dyingFlying.addFrame(animation0, 150);
+        dyingFlying.addFrame(animation1, 150);
+        dyingFlying.addFrame(animation2, 150);
+        dyingFlying.addFrame(animation3, 150);
+        dyingFlying.addFrame(animation4, 150);
 
         animations.put("dyingFlying", dyingFlying);
     }
@@ -196,17 +218,13 @@ public class MainCharacter extends Character{
         Image animation4 = ImageManager.loadImage("code/images/player/using/dying/dyingStanding004.png");
 
         Animation dyingStanding = new Animation(false);
-        dyingStanding.addFrame(animation0, 20);
-        dyingStanding.addFrame(animation1, 20);
-        dyingStanding.addFrame(animation2, 20);
-        dyingStanding.addFrame(animation3, 20);
-        dyingStanding.addFrame(animation4, 20);
+        dyingStanding.addFrame(animation0, 150);
+        dyingStanding.addFrame(animation1, 150);
+        dyingStanding.addFrame(animation2, 150);
+        dyingStanding.addFrame(animation3, 150);
+        dyingStanding.addFrame(animation4, 150);
 
         animations.put("dyingStanding", dyingStanding);
-    }
-
-    public Boolean isIsDead() {
-        return this.isDead;
     }
 
     public Boolean getIsDead() {
