@@ -75,7 +75,7 @@ public class GameWindow extends JFrame implements
 
 	public void createGameEntities() {
 
-		background = new Background(this, "code/images/backgrounds/1_game_background - Copy.png", 20);
+		background = new Background(this, "code/images/backgrounds/1_game_background - Copy.png", 10);
 		mainCharacter= new MainCharacter(this);
 		obstacles = new ArrayList<Obstacles>();
 		for (int i = 0; i < 1; i++) {
@@ -86,6 +86,7 @@ public class GameWindow extends JFrame implements
 			obstacles.add(new Laser(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-180), mainCharacter, this));
 			System.out.println("Missile drawn at (x,y): "+ obstacles.get(i).getX()+" "+ obstacles.get(i).getY());
 		}
+		
 	}
 
 	// implementation of Runnable interface
