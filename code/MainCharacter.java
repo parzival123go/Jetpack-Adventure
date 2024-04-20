@@ -3,40 +3,44 @@ import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
-import javax.swing.JPanel;
 
 public class MainCharacter extends Character{
     private Boolean isDead;
     private int lives;
     private int coins;
+    private int width=120;
+    private int height = 120;
     private Boolean damageable;
     private Boolean doubleCoins;
-    private JPanel panel;
+    private GameWindow gw;
     private Boolean isOnGround;
     private int health;
 
     private HashMap<String, Animation> animations; // will contain all animations
     // animations keys: fly, run, jump, dyingFlying, dyingStanding
     private SoundManager sm;
-    public MainCharacter(JPanel panel){
+    public MainCharacter(GameWindow gw){
         animations = new HashMap<String, Animation>();
         loadImages();
-        dy = 5;
-        dx = 5;
+        dy = 0;
+        dx = 0;
         health = 20;
-        this.panel = panel;
+        isDead=false;
+        this.gw = gw;
         this.sm = SoundManager.getInstance();
+        start();
     }
 
     public void start(){
-        x = 50;
-        y = 200;
+        x = 400;
+        y = 620;
         isOnGround = true;
         for (String key: animations.keySet()) {
             Animation temp = animations.get(key);
             temp.start();
         }
     }
+
 
     public void update(){
         if(isDead != true){
@@ -74,8 +78,8 @@ public class MainCharacter extends Character{
     private void fall(){
         // do fall calculation here *****
 
-        if(y>=200){
-            y=200;
+        if(y>=620){
+            y=620;
             isOnGround = true;
         }
     }
@@ -123,12 +127,43 @@ public class MainCharacter extends Character{
     }
 
     private void loadRunningAnimation(){
-        Image animation1 = ImageManager.loadImage("images/player/using/running.gif");
-        Animation run = new Animation(true);
-        run.addFrame(animation1, 100); // just set to 100 for now
-        animations.put("run", run);
-        height = animation1.getHeight(panel);
-        width = animation1.getWidth(panel);
+        Image animImage1 = ImageManager.loadImage("code/images/player/using/running/1.png");
+		Image animImage2 = ImageManager.loadImage("code/images/player/using/running/2.png");
+		Image animImage3 = ImageManager.loadImage("code/images/player/using/running/3.png");
+		Image animImage4 = ImageManager.loadImage("code/images/player/using/running/4.png");
+		Image animImage5 = ImageManager.loadImage("code/images/player/using/running/5.png");
+		Image animImage6 = ImageManager.loadImage("code/images/player/using/running/6.png");
+		Image animImage7 = ImageManager.loadImage("code/images/player/using/running/7.png");
+		Image animImage8 = ImageManager.loadImage("code/images/player/using/running/8.png");
+		Image animImage9 = ImageManager.loadImage("code/images/player/using/running/9.png");
+		Image animImage10 = ImageManager.loadImage("code/images/player/using/running/10.png");
+		Image animImage11 = ImageManager.loadImage("code/images/player/using/running/11.png");
+		Image animImage12 = ImageManager.loadImage("code/images/player/using/running/12.png");
+		Image animImage13 = ImageManager.loadImage("code/images/player/using/running/13.png");
+		Image animImage14 = ImageManager.loadImage("code/images/player/using/running/14.png");
+		Image animImage15 = ImageManager.loadImage("code/images/player/using/running/15.png");
+	
+		// create animation object and insert frames
+
+		Animation runningAnimation = new Animation(true);	// play once only
+
+		runningAnimation.addFrame(animImage15, 100);
+		runningAnimation.addFrame(animImage14, 100);
+		runningAnimation.addFrame(animImage13, 100);
+		runningAnimation.addFrame(animImage12, 100);
+		runningAnimation.addFrame(animImage11, 100);
+		runningAnimation.addFrame(animImage10, 100);
+		runningAnimation.addFrame(animImage9, 100);
+		runningAnimation.addFrame(animImage8, 100);
+		runningAnimation.addFrame(animImage7, 100);
+		runningAnimation.addFrame(animImage6, 100);
+		runningAnimation.addFrame(animImage5, 100);
+		runningAnimation.addFrame(animImage4, 100);
+		runningAnimation.addFrame(animImage3, 100);
+		runningAnimation.addFrame(animImage2, 100);
+		runningAnimation.addFrame(animImage1, 100);
+
+        animations.put("run", runningAnimation);
     }
 
     private void loadJumpingAnimation(){
@@ -185,6 +220,10 @@ public class MainCharacter extends Character{
 
     public Boolean getIsDead() {
         return this.isDead;
+    }
+
+    public void setIsonGround(Boolean onGround) {
+        this.isOnGround = onGround;
     }
 
     public void setIsDead(Boolean isDead) {

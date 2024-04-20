@@ -11,7 +11,6 @@ import java.awt.Graphics2D;
 public class GamePanel extends JPanel
 		       implements Runnable {
    
-	private static int NUM_ALIENS = 3;
 
 	private SoundManager soundManager;
 	
@@ -37,19 +36,13 @@ public class GamePanel extends JPanel
 
 		//backgroundImage = ImageManager.loadImage ("images/Background.jpg");
 
-		image = new BufferedImage (400, 400, BufferedImage.TYPE_INT_RGB);
+		image = new BufferedImage (1550, 800, BufferedImage.TYPE_INT_RGB);
 	}
 
 
 	public void createGameEntities() {
 
-		background = new Background(this, "images/Scroll-Background.png", 96);
-
-		
-	
-
-		imageFX2 = new GrayScaleFX2 (this);
-
+		background = new Background(this, "code/images/backgrounds/1_game_background - Copy.png", 20);
 	}
 
 
@@ -68,6 +61,7 @@ public class GamePanel extends JPanel
 
 
 	public void gameUpdate() {
+		background.move(2);
 /*
 		for (int i=0; i<NUM_ALIENS; i++) {
 			aliens[i].move();
@@ -91,11 +85,6 @@ public class GamePanel extends JPanel
 		if (background != null) {
 			background.move(direction);
 		}
-
-		// if (bat != null) {
-		// 	bat.move(direction);
-		// }
-
 	}
 
 
@@ -110,7 +99,7 @@ public class GamePanel extends JPanel
 		//imageContext.drawImage(backgroundImage, 0, 0, null);	// draw the background image
 
 		Graphics2D g2 = (Graphics2D) getGraphics();	// get the graphics context for the panel
-		g2.drawImage(image, 0, 0, 400, 400, null);
+		g2.drawImage(image, 0, 0, 1550, 800, null);
 
 		imageContext.dispose();
 		g2.dispose();
@@ -131,7 +120,7 @@ public class GamePanel extends JPanel
 	}
 
 
-	public void startNewGame() {				// initialise and start a new game thread 
+	public void startNewGame() {	
 
 		isPaused = false;
 

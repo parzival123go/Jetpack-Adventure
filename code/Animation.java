@@ -58,6 +58,10 @@ public class Animation {
 	isActive = false;
     }
 
+    public void reset() {
+        currFrameIndex = 0; // Reset to the beginning frame
+        startTime = System.nanoTime(); // Reset the start time
+    }
 
     /**
         Updates this animation's current image (frame), if

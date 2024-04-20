@@ -6,7 +6,7 @@ public class Background {
   	private Image bgImage;
   	private int bgImageWidth;      		// width of the background (>= panel Width)
 
-	private GamePanel panel;
+	private GameWindow gw;
 
  	private int bgX;			// X-coordinate of "actual" position
 
@@ -15,18 +15,18 @@ public class Background {
 	private int bgDX;			// size of the background move (in pixels)
 
 
-  public Background(GamePanel panel, String imageFile, int bgDX) {
+  public Background(GameWindow gw, String imageFile, int bgDX) {
     
-	this.panel = panel;
+	this.gw = gw;
     	this.bgImage = ImageManager.loadImage(imageFile);
     	bgImageWidth = bgImage.getWidth(null);	// get width of the background
 
 	System.out.println ("bgImageWidth = " + bgImageWidth);
 
-	if (bgImageWidth < panel.getWidth())
+	if (bgImageWidth < gw.getWidth())
       		System.out.println("Background width < panel width");
 
-    	this.bgDX = 200; // bgDX;
+    	this.bgDX = 20; // bgDX;
 
 	bgX = 0;
 	bg1X = 0;
@@ -84,8 +84,8 @@ public class Background {
  
 
   public void draw (Graphics2D g2) {
-	g2.drawImage(bgImage, bg1X, 0, null);
-	g2.drawImage(bgImage, bg2X, 0, null);
+	g2.drawImage(bgImage, bg1X, 0,1550, 800, null);
+	g2.drawImage(bgImage, bg2X, 0,1550, 800, null);
   }
 
 }
