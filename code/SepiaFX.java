@@ -10,7 +10,7 @@ public class SepiaFX implements ImageFX {
 	private static final int HEIGHT = 120;		// height of the image
 	private static final int YPOS = 250;		// vertical position of the image
 
-	private GamePanel panel;
+	private GameWindow gw;
 
 	private int x;
 	private int y;
@@ -24,11 +24,11 @@ public class SepiaFX implements ImageFX {
 	boolean originalImage, sepiaImage;
 
 
-	public SepiaFX (GamePanel p) {
-		panel = p;
+	public SepiaFX (GameWindow gw) {
+		this.gw = gw;
 
 		Random random = new Random();
-		x = random.nextInt (panel.getWidth() - WIDTH);
+		x = random.nextInt (gw.getWidth() - WIDTH);
 		y = YPOS;
 
 		time = 0;				// range is 0 to 40

@@ -14,6 +14,8 @@ public class MainCharacter extends Character{
     private Boolean doubleCoins;
     private GameWindow gw;
     private Boolean isOnGround;
+    private Boolean flying;
+    private Boolean falling;
     private int health;
 
     private HashMap<String, Animation> animations; // will contain all animations
@@ -26,6 +28,7 @@ public class MainCharacter extends Character{
         dx = 0;
         health = 20;
         isDead=false;
+        
         this.gw = gw;
         this.sm = SoundManager.getInstance();
         start();
@@ -33,12 +36,10 @@ public class MainCharacter extends Character{
 
     public void start(){
         x = 400;
-        y = 680;
+        y = gw.getHeight()/2 + 250;
         isOnGround = true;
-        for (String key: animations.keySet()) {
-            Animation temp = animations.get(key);
-            temp.start();
-        }
+        flying=false;
+        animations.get("run").start();
     }
 
     public void update(){
@@ -47,40 +48,54 @@ public class MainCharacter extends Character{
             
             if(isOnGround){
                 animations.get("run").update();
+                flying=false;
+                falling=false;
             }
-            else{
+            else
+            if(flying && !falling){
                 animations.get("fly").update();
+                y-=5;
+
+                if(y<0)
+                y=0;
+            }
+            else
+            if(flying && falling){
+                animations.get("fly").update();
+                y+=5;
+
+                if(y>gw.getHeight()/2 + 250){
+                    y=gw.getHeight()/2 + 250;
+                    flying=false;
+                    falling=false;
+                    isOnGround=true;
+                    animations.get("fly").stop();
+                animations.get("run").start();
+                }
+                
             }
             
-            x+=dx;
         }
         else{
             if(isOnGround) animations.get("dyingStanding").update();
             else animations.get("dyingFlying").update();
         }
-        fall();  // could do always falling 
     }
 
-    public void fly(){
-        // when space is pressed, increase dy until hit screen limit
-        // and fall when space not pressed
-        isOnGround = false;
-        if(y<=0){
-            y = 0;
-        }
-
-        else{
-            y-=dy;
-        }
+    public void fly() {
+        // When space is pressed, switch to the fly animation
+        isOnGround=false;
+        flying=true;
+        falling=false;
+        animations.get("run").stop();
+        animations.get("fly").start();
     }
 
-    private void fall(){
-        // do fall calculation here *****
 
-        if(y<=680){
-            y=680;
-            isOnGround = true;
-        }
+    public void fall(){
+        isOnGround=false;
+        flying=true;
+        falling=true;
     }
 
     public void draw(Graphics2D g2){
@@ -125,66 +140,43 @@ public class MainCharacter extends Character{
         loadRunningAnimation();
     }
 
-    private void loadRunningAnimation(){
-        Image animImage1 = ImageManager.loadImage("code/images/player/using/running/1.png");
-		Image animImage2 = ImageManager.loadImage("code/images/player/using/running/2.png");
-		Image animImage3 = ImageManager.loadImage("code/images/player/using/running/3.png");
-		Image animImage4 = ImageManager.loadImage("code/images/player/using/running/4.png");
-		Image animImage5 = ImageManager.loadImage("code/images/player/using/running/5.png");
-		Image animImage6 = ImageManager.loadImage("code/images/player/using/running/6.png");
-		Image animImage7 = ImageManager.loadImage("code/images/player/using/running/7.png");
-		Image animImage8 = ImageManager.loadImage("code/images/player/using/running/8.png");
-		Image animImage9 = ImageManager.loadImage("code/images/player/using/running/9.png");
-		Image animImage10 = ImageManager.loadImage("code/images/player/using/running/10.png");
-		Image animImage11 = ImageManager.loadImage("code/images/player/using/running/11.png");
-		Image animImage12 = ImageManager.loadImage("code/images/player/using/running/12.png");
-		Image animImage13 = ImageManager.loadImage("code/images/player/using/running/13.png");
-		Image animImage14 = ImageManager.loadImage("code/images/player/using/running/14.png");
-		Image animImage15 = ImageManager.loadImage("code/images/player/using/running/15.png");
-	
-		// create animation object and insert frames
-
-		Animation runningAnimation = new Animation(true);	// play once only
-
-		runningAnimation.addFrame(animImage15, 100);
-		runningAnimation.addFrame(animImage14, 100);
-		runningAnimation.addFrame(animImage13, 100);
-		runningAnimation.addFrame(animImage12, 100);
-		runningAnimation.addFrame(animImage11, 100);
-		runningAnimation.addFrame(animImage10, 100);
-		runningAnimation.addFrame(animImage9, 100);
-		runningAnimation.addFrame(animImage8, 100);
-		runningAnimation.addFrame(animImage7, 100);
-		runningAnimation.addFrame(animImage6, 100);
-		runningAnimation.addFrame(animImage5, 100);
-		runningAnimation.addFrame(animImage4, 100);
-		runningAnimation.addFrame(animImage3, 100);
-		runningAnimation.addFrame(animImage2, 100);
-		runningAnimation.addFrame(animImage1, 100);
-
+    private void loadRunningAnimation() {
+        // Load animation frames
+        Image[] animationFrames = new Image[15];
+        for (int i = 0; i <15; i++) {
+            animationFrames[i] = ImageManager.loadImage("code/images/player/using/running/" + (15-i) + ".png");
+        }
+    
+        Animation runningAnimation = new Animation(true);  // play once only
+        for (Image frame : animationFrames) {
+            runningAnimation.addFrame(frame, 100); 
+        }
+    
+        // Add the running animation to the animations map
         animations.put("run", runningAnimation);
     }
+    
 
     private void loadJumpingAnimation(){
-        Image animation1 = ImageManager.loadImage("images/player/using/jumping.gif");
+        Image animation1 = ImageManager.loadImage("code/images/player/using/jumping.gif");
         Animation jump = new Animation(true);
         jump.addFrame(animation1, 100); // just set to 100 for now
         animations.put("jump", jump);
     }
 
     private void loadFlyingAnimation(){
-        Image animation1 = ImageManager.loadImage("images/player/using/jetpack-flying.gif");
+        Image animation1 = ImageManager.loadImage("code/images/player/using/jetpack-flying.gif");
         Animation flying = new Animation(true);
         flying.addFrame(animation1, 100); // just set to 100 for now
         animations.put("fly", flying);
     }
 
     private void loadDyingFlyingAnimation(){
-        Image animation0 = ImageManager.loadImage("images/player/using/dying/dyingFlying000.png");
-        Image animation1 = ImageManager.loadImage("images/player/using/dying/dyingFlying001.png");
-        Image animation2 = ImageManager.loadImage("images/player/using/dying/dyingFlying002.png");
-        Image animation3 = ImageManager.loadImage("images/player/using/dying/dyingFlying003.png");
-        Image animation4 = ImageManager.loadImage("images/player/using/dying/dyingFlying004.png");
+        Image animation0 = ImageManager.loadImage("code/images/player/using/dying/dyingFlying000.png");
+        Image animation1 = ImageManager.loadImage("code/images/player/using/dying/dyingFlying001.png");
+        Image animation2 = ImageManager.loadImage("code/images/player/using/dying/dyingFlying002.png");
+        Image animation3 = ImageManager.loadImage("ceod/images/player/using/dying/dyingFlying003.png");
+        Image animation4 = ImageManager.loadImage("code/images/player/using/dying/dyingFlying004.png");
 
         Animation dyingFlying = new Animation(false);
         dyingFlying.addFrame(animation0, 20);
@@ -197,11 +189,11 @@ public class MainCharacter extends Character{
     }
 
     private void loadDyingStandingAnimation(){
-        Image animation0 = ImageManager.loadImage("images/player/using/dying/dyingStanding000.png");
-        Image animation1 = ImageManager.loadImage("images/player/using/dying/dyingStanding001.png");
-        Image animation2 = ImageManager.loadImage("images/player/using/dying/dyingStanding002.png");
-        Image animation3 = ImageManager.loadImage("images/player/using/dying/dyingStanding003.png");
-        Image animation4 = ImageManager.loadImage("images/player/using/dying/dyingStanding004.png");
+        Image animation0 = ImageManager.loadImage("code/images/player/using/dying/dyingStanding000.png");
+        Image animation1 = ImageManager.loadImage("code/images/player/using/dying/dyingStanding001.png");
+        Image animation2 = ImageManager.loadImage("code/images/player/using/dying/dyingStanding002.png");
+        Image animation3 = ImageManager.loadImage("code/images/player/using/dying/dyingStanding003.png");
+        Image animation4 = ImageManager.loadImage("code/images/player/using/dying/dyingStanding004.png");
 
         Animation dyingStanding = new Animation(false);
         dyingStanding.addFrame(animation0, 20);

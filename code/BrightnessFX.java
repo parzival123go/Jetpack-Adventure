@@ -10,7 +10,7 @@ public class BrightnessFX implements ImageFX {
 	private static final int HEIGHT = 120;		// height of the image
 	private static final int YPOS = 200;		// vertical position of the image
 
-	private GamePanel panel;
+	private GameWindow gw;
 
 	private int x;
 	private int y;
@@ -22,11 +22,11 @@ public class BrightnessFX implements ImageFX {
 
 	int brightness, brightnessChange;		// to alter the brightness of the image
 
-	public BrightnessFX (GamePanel p) {
-		panel = p;
+	public BrightnessFX (GameWindow gw) {
+		this.gw=gw;
 
 		Random random = new Random();
-		x = random.nextInt (panel.getWidth() - WIDTH);
+		x = random.nextInt (gw.getWidth() - WIDTH);
 		y = YPOS;
 
 		brightness = 0;				// range is -255 to 255; negative values darken the

@@ -391,7 +391,7 @@ public class GameWindow extends JFrame implements
 			//tileMap.moveRight();
 		}
 		if (keyCode == KeyEvent.VK_SPACE) {
-			//mainCharacter.fly();
+			mainCharacter.fly();
 		}
 		else
 		if (keyCode == KeyEvent.VK_UP) {
@@ -407,6 +407,35 @@ public class GameWindow extends JFrame implements
 
 	public void keyReleased (KeyEvent e) {
 
+		if (isPaused)
+			return;
+
+		int keyCode = e.getKeyCode();
+
+		if ((keyCode == KeyEvent.VK_ESCAPE) || (keyCode == KeyEvent.VK_Q) ||
+             	   (keyCode == KeyEvent.VK_END)) {
+           		isRunning = false;		// user can quit anytime by pressing
+			return;				//  one of these keys (ESC, Q, END)			
+         	}
+		else
+		if (keyCode == KeyEvent.VK_LEFT) {
+			//tileMap.moveLeft();
+		}
+		else
+		if (keyCode == KeyEvent.VK_RIGHT) {
+			//tileMap.moveRight();
+		}
+		if (keyCode == KeyEvent.VK_SPACE) {
+			mainCharacter.fall();
+		}
+		else
+		if (keyCode == KeyEvent.VK_UP) {
+			//bat.moveUp();
+		}
+		else
+		if (keyCode == KeyEvent.VK_DOWN) {
+			//bat.moveDown();
+		}
 	}
 
 
