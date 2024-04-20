@@ -56,7 +56,7 @@ public class DoubleCoins extends PowerUps{
     }
 
     public void loadImages(){
-        doubleCoinPickup = ImageManager.loadImage("images/doublecoins-rezised.png");
+        doubleCoinPickup = ImageManager.loadImage("code/images/doublecoins-rezised.png");
         width = doubleCoinPickup.getWidth(panel);
         height = doubleCoinPickup.getHeight(panel);
     }

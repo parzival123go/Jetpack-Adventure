@@ -52,11 +52,11 @@ public class Background {
 	bg1X = bg1X - bgDX;
 	bg2X = bg2X - bgDX;
 
-	String mess = "Moving background left: bgX=" + bgX + " bg1X=" + bg1X + " bg2X=" + bg2X;
-	System.out.println (mess);
+	// String mess = "Moving background left: bgX=" + bgX + " bg1X=" + bg1X + " bg2X=" + bg2X;
+	// System.out.println (mess);
 
 	if (bg1X < (bgImageWidth * -1)) {
-		System.out.println ("Background change: bgX = " + bgX); 
+		// System.out.println ("Background change: bgX = " + bgX); 
 		bg1X = 0;
 		bg2X = bgImageWidth;
 	}

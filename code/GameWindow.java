@@ -1,6 +1,8 @@
 import javax.swing.*;			// need this for GUI objects
 import java.awt.*;			// need this for certain AWT classes
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Random;
 import java.awt.event.*;
 import java.awt.image.BufferStrategy;	// need this to implement page flipping
 
@@ -41,9 +43,12 @@ public class GameWindow extends JFrame implements
 	private BufferStrategy bufferStrategy;
 
 	private MainCharacter mainCharacter;
+	private ArrayList<Obstacles> obstacles;
 	private SoundManager soundManager;
 	private Background background;
-	
+	private Random random;
+	private int windowWidth;
+	private int windowHeight;
 
 	public GameWindow() {
  
@@ -62,7 +67,9 @@ public class GameWindow extends JFrame implements
 
 		soundManager = SoundManager.getInstance();
 		image = new BufferedImage (pWidth, pHeight, BufferedImage.TYPE_INT_RGB);
-
+		random = new Random();
+		windowHeight = getBounds().height;
+		windowWidth = getBounds().width;
 		startGame();
 	}
 
@@ -70,6 +77,15 @@ public class GameWindow extends JFrame implements
 
 		background = new Background(this, "code/images/backgrounds/1_game_background - Copy.png", 20);
 		mainCharacter= new MainCharacter(this);
+		obstacles = new ArrayList<Obstacles>();
+		for (int i = 0; i < 1; i++) {
+			obstacles.add(new Missile(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-200), mainCharacter, this));
+			System.out.println("Missile drawn at (x,y): "+ obstacles.get(i).getX()+" "+ obstacles.get(i).getY());
+		}
+		for (int i = 0; i < 1; i++) {
+			obstacles.add(new Laser(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-180), mainCharacter, this));
+			System.out.println("Missile drawn at (x,y): "+ obstacles.get(i).getX()+" "+ obstacles.get(i).getY());
+		}
 	}
 
 	// implementation of Runnable interface
@@ -111,25 +127,30 @@ public class GameWindow extends JFrame implements
 
 
 	public void gameUpdate () {
-
-		if (!isPaused) 
+		
 		background.move(2);
 
 		//check x coordinates if player is on ground
-		if(!isPaused)
 		mainCharacter.update();
 
-	}
-
-	public void updateBat (int direction) {
-
-		if (isPaused)
-			return;
-
-		if (background != null) {
-			background.move(direction);
+		for (Obstacles ob : obstacles) {
+			ob.update();
 		}
+
 	}
+
+	private Boolean isPlayerDead(){
+		return mainCharacter.getIsDead();
+	}
+	// public void updateBat (int direction) {
+
+	// 	if (isPaused)
+	// 		return;
+
+	// 	if (background != null) {
+	// 		background.move(direction);
+	// 	}
+	// }
 
 	private void screenUpdate() { 
 
@@ -159,6 +180,9 @@ public class GameWindow extends JFrame implements
 		Graphics2D imageContext = (Graphics2D) image.getGraphics();
 		background.draw(imageContext);
 		mainCharacter.draw(imageContext);
+		for (Obstacles ob : obstacles) {
+			ob.draw(imageContext);
+		}
 
 		//Graphics2D g2 = (Graphics2D) getGraphics();	// get the graphics context for window
 		drawButtons(imageContext);			// draw the buttons
