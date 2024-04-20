@@ -53,7 +53,7 @@ public class Invincibility extends PowerUps{
     }
     
     public void loadImages(){
-        invincibilityPickUp = ImageManager.loadImage("images/invincible.png");
+        invincibilityPickUp = ImageManager.loadImage("code/images/invincible.png");
         width = invincibilityPickUp.getWidth(panel);
         height = invincibilityPickUp.getHeight(panel);
     }

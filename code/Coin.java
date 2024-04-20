@@ -41,7 +41,7 @@ public class Coin extends Obstacles{
     }
 
     public void loadImages(){
-        coin = ImageManager.loadImage("images/coin.png");
+        coin = ImageManager.loadImage("coin/images/coin.png");
         width = coin.getWidth(panel);
         height = coin.getHeight(panel);
     }
