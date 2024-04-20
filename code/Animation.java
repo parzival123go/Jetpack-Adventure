@@ -8,7 +8,7 @@ import java.util.ArrayList;
 */
 public class Animation {
 
-    private GamePanel panel;					// JPanel on which animation is being displayed
+    private GameWindow gw;					// JPanel on which animation is being displayed
     private ArrayList<AnimFrame> frames;			// collection of frames for animation
     private int currFrameIndex;					// current frame being displayed
     private long animTime;					// time that the animation has run for already
@@ -58,6 +58,10 @@ public class Animation {
 	isActive = false;
     }
 
+    public void reset() {
+        currFrameIndex = 0; // Reset to the beginning frame
+        startTime = System.nanoTime(); // Reset the start time
+    }
 
     /**
         Updates this animation's current image (frame), if
