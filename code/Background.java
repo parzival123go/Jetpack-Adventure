@@ -84,8 +84,11 @@ public class Background {
  
 
   public void draw (Graphics2D g2) {
-	g2.drawImage(bgImage, bg1X, 0,1550, 800, null);
-	g2.drawImage(bgImage, bg2X, 0,1550, 800, null);
+	int panelWidth = gw.getWidth();  
+    int panelHeight = gw.getHeight();
+
+	g2.drawImage(bgImage, bg1X, 0,panelWidth, panelHeight, null);
+	g2.drawImage(bgImage, bg2X, 0,panelWidth, panelHeight, null);
   }
 
 }

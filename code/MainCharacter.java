@@ -33,14 +33,13 @@ public class MainCharacter extends Character{
 
     public void start(){
         x = 400;
-        y = 620;
+        y = 680;
         isOnGround = true;
         for (String key: animations.keySet()) {
             Animation temp = animations.get(key);
             temp.start();
         }
     }
-
 
     public void update(){
         if(isDead != true){
@@ -78,8 +77,8 @@ public class MainCharacter extends Character{
     private void fall(){
         // do fall calculation here *****
 
-        if(y>=620){
-            y=620;
+        if(y<=680){
+            y=680;
             isOnGround = true;
         }
     }
