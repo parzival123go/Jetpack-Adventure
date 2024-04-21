@@ -103,10 +103,10 @@ public class GameWindow extends JFrame implements
 		// 	System.out.println("Laser drawn at (x,y): "+ obstacles.get(i).getX()+" "+ obstacles.get(i).getY());
 		// }
 
-		// for (int i = 0; i < 1; i++){
-		// 	powerups.add(new DoubleCoins(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-100), mainCharacter, this));
-		// 	System.out.println("Double Coin drawn at (x,y): "+ powerups.get(i).getX()+" "+ powerups.get(i).getY());
-		// }
+		for (int i = 0; i < 1; i++){
+			powerups.add(new DoubleCoins(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-100), mainCharacter, this));
+			System.out.println("Double Coin drawn at (x,y): "+ powerups.get(i).getX()+" "+ powerups.get(i).getY());
+		}
 
 		// for (int i = 0; i < 1; i++){
 		// 	powerups.add(new Invincibility(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-200), mainCharacter, this));
@@ -125,7 +125,11 @@ public class GameWindow extends JFrame implements
 		// 	coins.add(new Coin(coinX + ((i+1)*100),coinY , mainCharacter, this));
 		// }
 
-		//doubleCoinActive = new SepiaFX(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-180), this);
+		doubleCoinActive = new SepiaFX(-70, 470, this);
+
+		invisibleActive = new DisintegrateFX(-70, 570, this);
+
+		speedActive = new GrayScaleFX2(-70, 670, this);
 		
 	}
 
@@ -175,7 +179,7 @@ public class GameWindow extends JFrame implements
 		
 		if(!isPlayerDead()){
 			background.move(2);
-      
+
 			for (Obstacles ob : obstacles) {
 				ob.update();
 			}
@@ -292,7 +296,7 @@ public class GameWindow extends JFrame implements
 		if(isPlayerDead()){
 			drawGameOverScreen(g2, "Game Over");
 		}
-    
+
 		imageContext.dispose();
 		g2.dispose();
 	}
@@ -499,7 +503,7 @@ public class GameWindow extends JFrame implements
         int y = getHeight() / 2;
 
         g.drawString(message, x, y);
-        
+
 		Font font2 = new Font("Arial", Font.BOLD, 40);
         g.setFont(font2);
 		String scoreMessage = "Score " + score;
