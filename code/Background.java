@@ -34,6 +34,15 @@ public class Background {
 
   }
 
+  public void speedUp(boolean speedup){
+	if(speedup){
+		bgDX+=15;
+	}else{
+		bgDX-=15;
+	}
+	
+  }
+
 
   public void move (int direction) {
 

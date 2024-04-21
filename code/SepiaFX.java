@@ -24,19 +24,19 @@ public class SepiaFX implements ImageFX {
 	boolean originalImage, sepiaImage;
 
 
-	public SepiaFX (GameWindow gw) {
+	public SepiaFX (int x, int y,GameWindow gw) {
 		this.gw = gw;
 
 		Random random = new Random();
-		x = random.nextInt (gw.getWidth() - WIDTH);
-		y = YPOS;
+		this.x=x;
+		this.y=y;
 
 		time = 0;				// range is 0 to 40
 		timeChange = 1;				// set to 1
 		originalImage = true;
 		sepiaImage = false;
 
-		spriteImage = ImageManager.loadBufferedImage("images/Butterfly.png");
+		spriteImage = ImageManager.loadBufferedImage("code/images/doublecoins-rezised.png");
 		copyImage = ImageManager.copyImage(spriteImage);		
 							//  make a copy of the original image
 		copyToSepia();

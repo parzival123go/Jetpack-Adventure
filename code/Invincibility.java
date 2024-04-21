@@ -4,16 +4,21 @@ import java.awt.Image;
 import javax.swing.JPanel;
 
 public class Invincibility extends PowerUps{
-    Image invincibilityPickUp;
-    JPanel panel;
-    public Invincibility(int y, MainCharacter mc, int duration, JPanel panel){
+    Image doubleCoinPickup;
+    private GameWindow gw;  
+    private int timer=0;
+    private boolean timerStarted=false;
+    private boolean collision;
+    public Invincibility(int x, int y, MainCharacter mc, GameWindow gw){
         this.mc = mc;
-        this.duration = duration;
-        this.panel = panel;
+        this.gw = gw;
         this.y = y;
-        x = panel.getWidth();
+        this.x = x;
+        dx = -10;
+        dy = 0;
         isVisible = true;
         isActive = false;
+        collision=false;
         loadImages();
     }
 
@@ -21,41 +26,52 @@ public class Invincibility extends PowerUps{
         if(isActive) return;
         else{
             isActive = true;
-            mc.setDamageable(false);
+            mc.setInvincibility(true);
         }
     }
 
     public void removeEffect(){
         if(isActive){
-            mc.setDamageable(false);
+            isActive=false;
         }
     }
-    // need to figure out how to do duration
-    // then remove effect
-    // might have to do this in gamepanel and just set double coins effect to false in mc
 
     public void draw(Graphics2D g2){
         if(isVisible){
-            g2.drawImage(invincibilityPickUp, x, y, width, height, null);
+            g2.drawImage(doubleCoinPickup, x, y, width, height, null);
         }
     }
     
+
     public void update(){
-        if(collidesWithMc(x, y, width, height)){
+        if(collidesWithMc(x, y, width, height ) && !collision){
             isVisible = false;
             dx = 0;
-            apply();
+            mc.setInvincibility(true);            
+            collision=true;
+            timerStarted=true;
         }
         else{
             x+=dx;
+        }
 
+        if(timerStarted){
+            timer++;
+        }
+        
+
+        if(timer==300 && timerStarted){
+            mc.setInvincibility(false);
+            timerStarted=false;
+            timer=0;
         }
     }
-    
-    public void loadImages(){
-        invincibilityPickUp = ImageManager.loadImage("code/images/invincible.png");
-        width = invincibilityPickUp.getWidth(panel);
-        height = invincibilityPickUp.getHeight(panel);
-    }
 
+    public void loadImages(){
+        doubleCoinPickup = ImageManager.loadImage("code/images/invincible.png");
+
+        width = doubleCoinPickup.getWidth(gw);
+        height = doubleCoinPickup.getHeight(gw);
+    }
+    
 }

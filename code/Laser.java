@@ -3,8 +3,6 @@ import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.util.Random;
 
-import javax.swing.JPanel;
-
 public class Laser extends Obstacles{
     
     private GameWindow panel;
@@ -28,7 +26,7 @@ public class Laser extends Obstacles{
     }
 
     public void update(){
-        if(collidesWithMc(x, y, width, height)){
+        if(collidesWithMc(x, y, width, height) && !mc.getInvincibility()){
             dx = 0;
             isVisible = false;
 
@@ -58,9 +56,11 @@ public class Laser extends Obstacles{
 
     public void loadImages(){
         laser = ImageManager.loadImage("code/images/laser.png");
+
         // height = laser.getHeight(panel);
         // width = laser.getWidth(panel);
         height = 100;   // 720/4
         width = 250;    // 1280/4
+
     }
 }

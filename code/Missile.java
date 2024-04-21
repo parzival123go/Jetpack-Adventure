@@ -26,7 +26,7 @@ public class Missile extends Obstacles{
     }
     
     public void update(){
-        if(collidesWithMc(x, y, width, height)){
+        if(collidesWithMc(x, y, width, height) ){
             dx = 0;
             isVisible = false;
             

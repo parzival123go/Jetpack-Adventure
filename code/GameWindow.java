@@ -44,16 +44,19 @@ public class GameWindow extends JFrame implements
 
 	private MainCharacter mainCharacter;
 	private ArrayList<Obstacles> obstacles;
+	private ArrayList<PowerUps> powerups;
+	private ArrayList<Coin> coins;
 	private SoundManager soundManager;
 	private Background background;
 	private Random random;
 	private int windowWidth;
 	private int windowHeight;
 	private int score;
+	private SepiaFX doubleCoinActive;
 
 	public GameWindow() {
  
-		super("Tiled Bat and Ball Game: Full Screen Exclusive Mode");
+		super("Jetpack Adventure =＾● ⋏ ●＾=");
 
 		initFullScreen();
 
@@ -79,14 +82,41 @@ public class GameWindow extends JFrame implements
 		background = new Background(this, "code/images/backgrounds/1_game_background - Copy.png", 10);
 		mainCharacter= new MainCharacter(this);
 		obstacles = new ArrayList<Obstacles>();
-		for (int i = 0; i < 1; i++) {
-			obstacles.add(new Missile(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-200), mainCharacter, this));
-			System.out.println("Missile drawn at (x,y): "+ obstacles.get(i).getX()+" "+ obstacles.get(i).getY());
-		}
-		for (int i = 0; i < 1; i++) {
-			obstacles.add(new Laser(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-180), mainCharacter, this));
-			System.out.println("Missile drawn at (x,y): "+ obstacles.get(i).getX()+" "+ obstacles.get(i).getY());
-		}
+		powerups = new ArrayList<PowerUps>();
+		coins = new ArrayList<Coin>();
+		// for (int i = 0; i < 1; i++) {
+		// 	obstacles.add(new Missile(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-200), mainCharacter, this));
+		// 	System.out.println("Missile drawn at (x,y): "+ obstacles.get(i).getX()+" "+ obstacles.get(i).getY());
+		// }
+		// for (int i = 0; i < 1; i++) {
+		// 	obstacles.add(new Laser(random.nextInt(windowWidth*2, windowWidth*3), random.nextInt(0, windowHeight-180), mainCharacter, this));
+		// 	System.out.println("Laser drawn at (x,y): "+ obstacles.get(i).getX()+" "+ obstacles.get(i).getY());
+		// }
+
+		// for (int i = 0; i < 1; i++){
+		// 	powerups.add(new DoubleCoins(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-100), mainCharacter, this));
+		// 	System.out.println("Double Coin drawn at (x,y): "+ powerups.get(i).getX()+" "+ powerups.get(i).getY());
+		// }
+
+		// for (int i = 0; i < 1; i++){
+		// 	powerups.add(new Invincibility(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-200), mainCharacter, this));
+		// 	System.out.println("Invinc drawn at (x,y): "+ powerups.get(i).getX()+" "+ powerups.get(i).getY());
+		// }
+
+		// for (int i = 0; i < 1; i++){
+		// 	powerups.add(new SpeedUp(random.nextInt(windowWidth, windowWidth*2), random.nextInt(20, windowHeight-200), mainCharacter, this));
+		// 	System.out.println("Speed drawn at (x,y): "+ powerups.get(i).getX()+" "+ powerups.get(i).getY());
+		// }
+
+		// int coinY,coinX;
+		// coinY=random.nextInt(0, windowHeight-100);
+		// coinX= random.nextInt(windowWidth*2, windowWidth*3);
+		// for (int i = 0; i < 5; i++){
+		// 	coins.add(new Coin(coinX + ((i+1)*100),coinY , mainCharacter, this));
+		// }
+
+		//doubleCoinActive = new SepiaFX(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-180), this);
+
 		
 	}
 
@@ -127,12 +157,16 @@ public class GameWindow extends JFrame implements
 		device.setFullScreenWindow(null);
 	}
 
+	public void setSpeedUp(boolean speed){
+		background.speedUp(speed);
+	}
+
 
 	public void gameUpdate () {
 		
 		if(!isPlayerDead()){
 			background.move(2);
-			
+      
 			for (Obstacles ob : obstacles) {
 				ob.update();
 			}
@@ -141,6 +175,17 @@ public class GameWindow extends JFrame implements
 		//check x coordinates if player is on ground
 		mainCharacter.update();
 
+		for (PowerUps pu : powerups) {
+			pu.update();
+		}
+
+		for (Coin coin : coins) {
+			coin.update();
+		}
+
+		if(doubleCoinActive!=null){
+			doubleCoinActive.update();
+		}
 
 	}
 
@@ -189,6 +234,18 @@ public class GameWindow extends JFrame implements
 			ob.draw(imageContext);
 		}
 
+		for (PowerUps pu : powerups) {
+			pu.draw(imageContext);
+		}
+
+		for (Coin coin : coins) {
+			coin.draw(imageContext);
+		}
+
+		if(doubleCoinActive!=null){
+			doubleCoinActive.draw(imageContext);
+		}
+
 		//Graphics2D g2 = (Graphics2D) getGraphics();	// get the graphics context for window
 		drawButtons(imageContext);			// draw the buttons
 
@@ -198,6 +255,7 @@ public class GameWindow extends JFrame implements
 		if(isPlayerDead()){
 			drawGameOverScreen(g2, "Game Over");
 		}
+    
 		imageContext.dispose();
 		g2.dispose();
 	}
@@ -324,21 +382,6 @@ public class GameWindow extends JFrame implements
 		else
 			g.drawString("Pause", pauseButtonArea.x+55, pauseButtonArea.y+25);
 
-		// draw the stop 'button'
-
-		// g.setColor(Color.BLACK);
-		// g.drawOval(startNewGameArea.x, startNewGameArea.y, 
-		// startNewGameArea.width, startNewGameArea.height);
-
-		// if (isOverStartNewButton && !isStopped)
-		// 	g.setColor(Color.WHITE);
-		// else
-		// 	g.setColor(Color.RED);
-
-		// if (isStopped)
-		// 	g.drawString("Restart Game", startNewGameArea.x+40, startNewGameArea.y+25);
-		// else
-		// 	g.drawString("Stop", startNewGameArea.x+60, startNewGameArea.y+25);
 
 		
 
@@ -351,17 +394,7 @@ public class GameWindow extends JFrame implements
 		else
 		   g.drawImage(quit2Image, quitButtonArea.x, quitButtonArea.y, 180, 50, null);
 		    	       //quitButtonArea.width, quitButtonArea.height, null);
-/*
-		g.setColor(Color.BLACK);
-		g.drawOval(quitButtonArea.x, quitButtonArea.y, 
-			   quitButtonArea.width, quitButtonArea.height);
-		if (isOverQuitButton)
-			g.setColor(Color.WHITE);
-		else
-			g.setColor(Color.RED);
 
-		g.drawString("Quit", quitButtonArea.x+60, quitButtonArea.y+25);
-*/
 		g.setFont(oldFont);		// reset font
 
 	}
@@ -411,7 +444,7 @@ public class GameWindow extends JFrame implements
         int y = getHeight() / 2;
 
         g.drawString(message, x, y);
-		
+        
 		Font font2 = new Font("Arial", Font.BOLD, 40);
         g.setFont(font2);
 		String scoreMessage = "Score " + score;

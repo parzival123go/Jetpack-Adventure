@@ -6,18 +6,19 @@ import javax.swing.JPanel;
 public class Coin extends Obstacles{
     
     Image coin;
-    JPanel panel;
-
+    private GameWindow gw;
+    private boolean collision;
     SoundManager sm;
 
-    public Coin(int y, MainCharacter mc, JPanel panel){
-        this.panel = panel;
+    public Coin(int x, int y, MainCharacter mc, GameWindow gw){
         this.mc = mc;
-        x = panel.getWidth();
+        this.gw = gw;
+        this.y = y;
+        this.x = x;
         dx = -10;
         dy = 0;
         isVisible = true;
-
+        collision=false;
         loadImages();
         sm = SoundManager.getInstance();
     }
@@ -29,10 +30,10 @@ public class Coin extends Obstacles{
     }
 
     public void update(){
-        if(collidesWithMc(x, y, width, height)){
+        if(collidesWithMc(x, y, width, height) && !collision){
             dx = 0;
             isVisible = false;
-            
+            collision=true;
             mc.addCoins(1);  // each coin is worth 1
         }
         else{
@@ -41,9 +42,9 @@ public class Coin extends Obstacles{
     }
 
     public void loadImages(){
-        coin = ImageManager.loadImage("coin/images/coin.png");
-        width = coin.getWidth(panel);
-        height = coin.getHeight(panel);
+        coin = ImageManager.loadImage("code/images/coin.png");
+        width = coin.getWidth(gw);
+        height = coin.getHeight(gw);
     }
 
 
