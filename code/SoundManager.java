@@ -13,10 +13,41 @@ public class SoundManager {				// a Singleton class
 	private SoundManager () {
 		clips = new HashMap<String, Clip>();
 
-		// Clip clip = loadClip("sounds/background.wav");	// played from start of the game
-		// clips.put("background", clip);
+		Clip clip = loadClip("code/sounds/level1.wav");
+		clips.put("level1", clip);
 
-		volume = 1.0f;
+		Clip clip1 = loadClip("code/sounds/level2.wav");
+		clips.put("level2", clip1);
+
+		Clip clip2 = loadClip("code/sounds/level3.wav");
+		clips.put("level3", clip2);
+
+		Clip clip3 = loadClip("code/sounds/coin.wav");
+		clips.put("coin", clip3);
+
+		Clip clip4 = loadClip("code/sounds/die.wav");
+		clips.put("die", clip4);
+
+		Clip clip5 = loadClip("code/sounds/doubleCoin.wav");
+		clips.put("doubleCoin", clip5);
+
+		Clip clip6 = loadClip("code/sounds/fly.wav");
+		clips.put("fly", clip6);
+
+		Clip clip7 = loadClip("code/sounds/gameOver.wav");
+		clips.put("gameOver", clip7);
+
+		Clip clip8 = loadClip("code/sounds/invisible.wav");
+		clips.put("invisible", clip8);
+
+		Clip clip9 = loadClip("code/sounds/laser.wav");
+		clips.put("laser", clip9);
+
+		Clip clip10 = loadClip("code/sounds/missile.wav");
+		clips.put("missile", clip10);
+
+		Clip clip11 = loadClip("code/sounds/speed.wav");
+		clips.put("speed", clip11);
 	}
 
 

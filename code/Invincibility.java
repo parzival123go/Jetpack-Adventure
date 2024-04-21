@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 public class Invincibility extends PowerUps{
     Image doubleCoinPickup;
     private GameWindow gw;  
+    SoundManager sm;
     private int timer=0;
     private boolean timerStarted=false;
     private boolean collision;
@@ -20,6 +21,7 @@ public class Invincibility extends PowerUps{
         isActive = false;
         collision=false;
         loadImages();
+        sm = SoundManager.getInstance();
     }
 
     public void apply(){
@@ -38,16 +40,15 @@ public class Invincibility extends PowerUps{
     }
 
     public void draw(Graphics2D g2){
-        if(isVisible){
+        
             g2.drawImage(doubleCoinPickup, x, y, width, height, null);
-        }
+        
     }
     
 
     public void update(){
         if(collidesWithMc(x, y, width, height ) && !collision){
-            isVisible = false;
-            dx = 0;
+            sm.playClip("invisible",false);
             mc.setInvincibility(true);  
             gw.setInvincActive(true);          
             collision=true;
