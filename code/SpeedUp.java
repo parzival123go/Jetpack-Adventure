@@ -4,18 +4,21 @@ import java.awt.Image;
 import javax.swing.JPanel;
 
 public class SpeedUp extends PowerUps{
-    private int oldDx;
-    private Image speedUpPickUp;
-    JPanel panel;
-
-    public SpeedUp(int y, MainCharacter mc, int duration, JPanel panel){
+    Image doubleCoinPickup;
+    private GameWindow gw;
+    private int timer=0;
+    private boolean timerStarted=false;
+    private boolean collision;
+    public SpeedUp(int x, int y, MainCharacter mc, GameWindow gw){
         this.mc = mc;
-        this.duration = duration;
-        this.panel = panel;
+        this.gw = gw;
         this.y = y;
-        x = panel.getWidth();
+        this.x = x;
+        dx = -10;
+        dy = 0;
         isVisible = true;
         isActive = false;
+        collision=false;
         loadImages();
     }
 
@@ -23,41 +26,55 @@ public class SpeedUp extends PowerUps{
         if(isActive) return;
         else{
             isActive = true;
-            oldDx = mc.getDx();
-            mc.setDx(oldDx+5);
+            //mc.setSpeedUp(true);
         }
     }
 
     public void removeEffect(){
         if(isActive){
-            mc.setDx(oldDx);
+            isActive=false;
         }
     }
-    // need to figure out how to do duration
-    // then remove effect
-    // might have to do this in gamepanel and just set double coins effect to false in mc
 
     public void draw(Graphics2D g2){
         if(isVisible){
-            g2.drawImage(speedUpPickUp, x, y, width, height, null);
+            g2.drawImage(doubleCoinPickup, x, y, width, height, null);
         }
     }
     
+
     public void update(){
-        if(collidesWithMc(x, y, width, height)){
+        if(collidesWithMc(x, y, width, height) && !collision){
             isVisible = false;
             dx = 0;
-            apply();
+            collision=true;
+            gw.setSpeedUp(true);
+            mc.setInvincibility(true);
+            timerStarted=true;
         }
         else{
             x+=dx;
-
         }
+
+        if(timerStarted){
+            timer++;
+        }
+        
+
+        if(timer==300 && timerStarted){
+            gw.setSpeedUp(false);
+            mc.setInvincibility(false);
+            timerStarted=false;
+            timer=0;
+        }
+
+    }
+
+    public void loadImages(){
+        doubleCoinPickup = ImageManager.loadImage("code/images/speed.png");
+
+        width = doubleCoinPickup.getWidth(gw);
+        height = doubleCoinPickup.getHeight(gw);
     }
     
-    public void loadImages(){
-        speedUpPickUp = ImageManager.loadImage("images/speed.png");
-        width = speedUpPickUp.getWidth(panel);
-        height = speedUpPickUp.getHeight(panel);
-    }
 }

@@ -26,12 +26,21 @@ public class Background {
 	if (bgImageWidth < gw.getWidth())
       		System.out.println("Background width < panel width");
 
-    	this.bgDX = 20; // bgDX;
+    	this.bgDX = bgDX; // bgDX;
 
 	bgX = 0;
 	bg1X = 0;
 	bg2X = bgImageWidth;
 
+  }
+
+  public void speedUp(boolean speedup){
+	if(speedup){
+		bgDX+=15;
+	}else{
+		bgDX-=15;
+	}
+	
   }
 
 

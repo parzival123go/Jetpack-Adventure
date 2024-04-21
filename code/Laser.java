@@ -1,12 +1,15 @@
 import java.awt.Graphics2D;
 import java.awt.Image;
-
-import javax.swing.JPanel;
+import java.awt.geom.AffineTransform;
+import java.util.Random;
 
 public class Laser extends Obstacles{
     
     private GameWindow panel;
     private Image laser;
+    private int angle;
+    private Boolean ifRotate;
+    private Random random;
     // when called, set a random y
     public Laser(int x, int y, MainCharacter mc, GameWindow panel){
         this.mc = mc;
@@ -14,13 +17,16 @@ public class Laser extends Obstacles{
         this.x = x;
         dx = -10;
         dy = 0;
+        random = new Random();
+        angle = random.nextInt(0, 290);
+        ifRotate = random.nextBoolean();
         this.panel = panel;
         isVisible = true;
         loadImages();
     }
 
     public void update(){
-        if(collidesWithMc(x, y, width, height)){
+        if(collidesWithMc(x, y, width, height) && !mc.getInvincibility()){
             dx = 0;
             isVisible = false;
 
@@ -28,18 +34,29 @@ public class Laser extends Obstacles{
         }
         else{
             x+=dx;
+            if(ifRotate) angle+=5;
         }
     }
 
     public void draw(Graphics2D g2){
-        g2.drawImage(laser, x, y, width, height, null);
+        AffineTransform originalTransform = g2.getTransform();
+
+        // Translate to the center of the image
+        g2.translate(x + width / 2, y + height / 2);
+
+        // Rotate the image
+        g2.rotate(Math.toRadians(angle));
+
+        // Draw the image
+        g2.drawImage(laser, -width / 2, -height / 2, width, height, null);
+
+        // Restore the original transformation
+        g2.setTransform(originalTransform);
     }
 
     public void loadImages(){
         laser = ImageManager.loadImage("code/images/laser.png");
-        // height = laser.getHeight(panel);
-        // width = laser.getWidth(panel);
-        height = 180;   // 720/4
-        width = 320;    // 1280/4
+        height = 100;   
+        width = 250;   
     }
 }

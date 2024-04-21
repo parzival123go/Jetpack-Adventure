@@ -12,6 +12,8 @@ public class MainCharacter extends Character{
     private int height = 200;
     private Boolean damageable;
     private Boolean doubleCoins;
+    private Boolean invisible;
+    private Boolean speedUp;
     private GameWindow gw;
     private Boolean isOnGround;
     private Boolean flying;
@@ -36,12 +38,13 @@ public class MainCharacter extends Character{
 
     public void start(){
         x = 400;
-        y = gw.getHeight()/2 + 250;
+        y = gw.getHeight()/2 + 195;
         isOnGround = true;
         flying=false;
         damageable = true;
         doubleCoins = false;
-
+        invisible=false;
+        speedUp=false;
         animations.get("run").start();
         // animations.get("dyingStanding").start();
         // animations.get("dyingFlying").start();
@@ -69,8 +72,8 @@ public class MainCharacter extends Character{
                 animations.get("fly").update();
                 y+=15;
 
-                if(y>gw.getHeight()/2 + 250){
-                    y=gw.getHeight()/2 + 250;
+                if(y>gw.getHeight()/2 + 195){
+                    y=gw.getHeight()/2 + 195;
                     flying=false;
                     falling=false;
                     isOnGround=true;
@@ -79,6 +82,15 @@ public class MainCharacter extends Character{
                 }
                 
             }
+
+            //Add in something to double coins if bool = true
+            if(doubleCoins){
+                //add effect to player 
+                //start timer
+                //double coins
+                //add in an if for timer to stop and reset everything
+            }
+
             
         }
         else {
@@ -271,6 +283,18 @@ public class MainCharacter extends Character{
         this.doubleCoins = doubleCoins;
     }
 
+    public void setInvincibility(Boolean inv) {
+        this.invisible = inv;
+    }
+
+    public Boolean getInvincibility(){
+        return invisible;
+    }
+
+    public void setSpeedUp(Boolean speed) {
+        this.speedUp = speed;
+    }
+
     public int getCoins() {
         return this.coins;
     }
@@ -282,9 +306,11 @@ public class MainCharacter extends Character{
     public void addCoins(int amnt){
         if(doubleCoins){
             this.coins+=2*amnt;
+            System.out.println("Coins: "+ coins);
         }
         else{
             this.coins+=amnt;
+            System.out.println("Coins: "+ coins);
         }
     }
 
