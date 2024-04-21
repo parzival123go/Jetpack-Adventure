@@ -5,13 +5,16 @@ import java.util.Random;
 
 public class Laser extends Obstacles{
     
-    private GameWindow panel;
+    private GameWindow gw;
     private Image laser;
     private int angle;
     private Boolean ifRotate;
     private Random random;
+    SoundManager sm;
+    private boolean collision;
+    private int x,y;
     // when called, set a random y
-    public Laser(int x, int y, MainCharacter mc, GameWindow panel){
+    public Laser(int x, int y, MainCharacter mc, GameWindow gw){
         this.mc = mc;
         this.y = y;
         this.x = x;
@@ -20,22 +23,33 @@ public class Laser extends Obstacles{
         random = new Random();
         angle = random.nextInt(0, 290);
         ifRotate = random.nextBoolean();
-        this.panel = panel;
+        this.gw = gw;
         isVisible = true;
+        collision=false;
         loadImages();
+        sm = SoundManager.getInstance();
     }
 
     public void update(){
-        if(collidesWithMc(x, y, width, height) && !mc.getInvincibility()){
-            dx = 0;
-            isVisible = false;
-
+        if(collidesWithMc(x, y, width, height) && !mc.getInvincibility() && !collision){
+            collision=true;
+            setLocation();
+            sm.playClip("laser",false);  
             mc.damageMc();
         }
         else{
             x+=dx;
             if(ifRotate) angle+=5;
         }
+
+        if(x<0)
+        setLocation();
+    }
+
+    public void setLocation(){
+        x += random.nextInt(gw.getWidth(), gw.getWidth()*2);
+        y = random.nextInt(0, gw.getHeight()-100);
+        collision=false;
     }
 
     public void draw(Graphics2D g2){

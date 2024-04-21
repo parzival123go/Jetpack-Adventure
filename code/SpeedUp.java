@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 public class SpeedUp extends PowerUps{
     Image doubleCoinPickup;
     private GameWindow gw;
+    SoundManager sm;
     private int timer=0;
     private boolean timerStarted=false;
     private boolean collision;
@@ -20,6 +21,7 @@ public class SpeedUp extends PowerUps{
         isActive = false;
         collision=false;
         loadImages();
+        sm = SoundManager.getInstance();
     }
 
     public void apply(){
@@ -37,16 +39,15 @@ public class SpeedUp extends PowerUps{
     }
 
     public void draw(Graphics2D g2){
-        if(isVisible){
+        
             g2.drawImage(doubleCoinPickup, x, y, width, height, null);
-        }
+        
     }
     
 
     public void update(){
         if(collidesWithMc(x, y, width, height) && !collision){
-            isVisible = false;
-            dx = 0;
+            sm.playClip("speed", false);
             collision=true;
             gw.setSpeedUp(true);
             gw.setSpeedUpActive(true);

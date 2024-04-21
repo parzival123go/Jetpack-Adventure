@@ -22,17 +22,17 @@ public class MainCharacter extends Character{
 
     private HashMap<String, Animation> animations; // will contain all animations
     // animations keys: fly, run, jump, dyingFlying, dyingStanding
-    private SoundManager sm;
+    SoundManager sm;
     public MainCharacter(GameWindow gw){
         animations = new HashMap<String, Animation>();
         loadImages();
         dy = 0;
         dx = 0;
-        health = 1;
+        health = 5;
         isDead=false;
         
         this.gw = gw;
-        this.sm = SoundManager.getInstance();
+        sm = SoundManager.getInstance();
         start();
     }
 
@@ -82,15 +82,6 @@ public class MainCharacter extends Character{
                 }
                 
             }
-
-            //Add in something to double coins if bool = true
-            if(doubleCoins){
-                //add effect to player 
-                //start timer
-                //double coins
-                //add in an if for timer to stop and reset everything
-            }
-
             
         }
         else {
@@ -152,9 +143,16 @@ public class MainCharacter extends Character{
             if(health <=0){
                 damageable = false;
                 isDead = true;
-                System.out.println("Player is dead");
                 animations.get("fly").stop();
-                animations.get("run").stop();
+                animations.get("run").stop(); 
+                
+                
+                sm.stopClip("fly");
+                sm.stopClip("level3");
+                sm.stopClip("level2");
+                sm.stopClip("leve1");
+                sm.playClip("die", false);
+		        sm.playClip("gameOver", true);
                 animations.get("dyingStanding").start();
                 animations.get("dyingFlying").start();
             }

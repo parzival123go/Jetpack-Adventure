@@ -61,6 +61,7 @@ public class GameWindow extends JFrame implements
 	private boolean speedUpActive=false;
 	private boolean invActive=false;
 	private boolean dcActive=false;
+	private boolean isDead=false;
 	private int coinsCount=0;
 	private int distanceCovered=0;
 
@@ -94,33 +95,29 @@ public class GameWindow extends JFrame implements
 		obstacles = new ArrayList<Obstacles>();
 		powerups = new ArrayList<PowerUps>();
 		coins = new ArrayList<Coin>();
+
 		// for (int i = 0; i < 1; i++) {
 		// 	obstacles.add(new Missile(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-200), mainCharacter, this));
-		// 	System.out.println("Missile drawn at (x,y): "+ obstacles.get(i).getX()+" "+ obstacles.get(i).getY());
-		// }
+		//  }
 		// for (int i = 0; i < 1; i++) {
-		// 	obstacles.add(new Laser(random.nextInt(windowWidth*2, windowWidth*3), random.nextInt(0, windowHeight-180), mainCharacter, this));
-		// 	System.out.println("Laser drawn at (x,y): "+ obstacles.get(i).getX()+" "+ obstacles.get(i).getY());
+		// 	obstacles.add(new Laser(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-180), mainCharacter, this));
 		// }
 
-		for (int i = 0; i < 1; i++){
-			powerups.add(new DoubleCoins(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-100), mainCharacter, this));
-			System.out.println("Double Coin drawn at (x,y): "+ powerups.get(i).getX()+" "+ powerups.get(i).getY());
-		}
+		// for (int i = 0; i < 1; i++){
+		// 	powerups.add(new DoubleCoins(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-100), mainCharacter, this));
+		// }
 
 		// for (int i = 0; i < 1; i++){
 		// 	powerups.add(new Invincibility(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-200), mainCharacter, this));
-		// 	System.out.println("Invinc drawn at (x,y): "+ powerups.get(i).getX()+" "+ powerups.get(i).getY());
 		// }
 
 		// for (int i = 0; i < 1; i++){
 		// 	powerups.add(new SpeedUp(random.nextInt(windowWidth, windowWidth*2), random.nextInt(20, windowHeight-200), mainCharacter, this));
-		// 	System.out.println("Speed drawn at (x,y): "+ powerups.get(i).getX()+" "+ powerups.get(i).getY());
 		// }
 
 		// int coinY,coinX;
 		// coinY=random.nextInt(0, windowHeight-100);
-		// coinX= random.nextInt(windowWidth*2, windowWidth*3);
+		// coinX= random.nextInt(windowWidth, windowWidth*2);
 		// for (int i = 0; i < 5; i++){
 		// 	coins.add(new Coin(coinX + ((i+1)*100),coinY , mainCharacter, this));
 		// }
@@ -180,21 +177,29 @@ public class GameWindow extends JFrame implements
 		if(!isPlayerDead()){
 			background.move(2);
 
+			if(!isPaused)
+
+			if(!speedUpActive){
+				distanceCovered++;
+			}
+			else{
+				distanceCovered+=2;
+			}	
+
 			for (Obstacles ob : obstacles) {
 				ob.update();
 			}
+
+			for (PowerUps pu : powerups) {
+				pu.update();
+			}
+
+			for (Coin coin : coins) {
+				coin.update();
+			}
 		}
 
-		//check x coordinates if player is on ground
 		mainCharacter.update();
-
-		for (PowerUps pu : powerups) {
-			pu.update();
-		}
-
-		for (Coin coin : coins) {
-			coin.update();
-		}
 
 		if(!dcActive)
 		doubleCoinActive.remove();
@@ -220,8 +225,6 @@ public class GameWindow extends JFrame implements
 			speedActive.update();
 		}
 
-		if(!isPaused)
-		distanceCovered++;
 
 	}
 
@@ -462,7 +465,7 @@ public class GameWindow extends JFrame implements
 	public void startGame() {				// initialise and start the game thread 
 
 		if (gameThread == null) {
-			//soundManager.playClip ("background", true);
+			soundManager.playClip ("level1", true);
 			createGameEntities();
 			gameThread = new Thread (this);			
 			gameThread.start();
@@ -492,6 +495,7 @@ public class GameWindow extends JFrame implements
 	}
 
 	private void drawGameOverScreen(Graphics g, String message) {
+			
         g.setColor(new Color(0, 0, 0, 100));
         g.fillRect(0, 0, getWidth(), getHeight());
 
@@ -506,8 +510,11 @@ public class GameWindow extends JFrame implements
 
 		Font font2 = new Font("Arial", Font.BOLD, 40);
         g.setFont(font2);
-		String scoreMessage = "Score " + score;
+		String scoreMessage = "Coins Collected: " + coinsCount;
 		g.drawString(scoreMessage, x, y+50);
+
+		String scoreMessage2 = "Distance Covered: " + distanceCovered;
+		g.drawString(scoreMessage2, x, y+90);
     }
 
 	// implementation of methods in KeyListener interface
@@ -533,6 +540,7 @@ public class GameWindow extends JFrame implements
 			//tileMap.moveRight();
 		}
 		if (keyCode == KeyEvent.VK_SPACE) {
+			soundManager.playClip("fly", true);
 			mainCharacter.fly();
 		}
 		else
@@ -568,6 +576,7 @@ public class GameWindow extends JFrame implements
 			//tileMap.moveRight();
 		}
 		if (keyCode == KeyEvent.VK_SPACE) {
+			soundManager.stopClip("fly");
 			mainCharacter.fall();
 		}
 		else
