@@ -49,6 +49,7 @@ public class GameWindow extends JFrame implements
 	private Random random;
 	private int windowWidth;
 	private int windowHeight;
+	private int score;
 
 	public GameWindow() {
  
@@ -129,14 +130,17 @@ public class GameWindow extends JFrame implements
 
 	public void gameUpdate () {
 		
-		background.move(2);
+		if(!isPlayerDead()){
+			background.move(2);
+			
+			for (Obstacles ob : obstacles) {
+				ob.update();
+			}
+		}
 
 		//check x coordinates if player is on ground
 		mainCharacter.update();
 
-		for (Obstacles ob : obstacles) {
-			ob.update();
-		}
 
 	}
 
@@ -191,6 +195,9 @@ public class GameWindow extends JFrame implements
 		Graphics2D g2 = (Graphics2D) gScr;
 		g2.drawImage(image, 0, 0, pWidth, pHeight, null);
 
+		if(isPlayerDead()){
+			drawGameOverScreen(g2, "Game Over");
+		}
 		imageContext.dispose();
 		g2.dispose();
 	}
@@ -392,6 +399,24 @@ public class GameWindow extends JFrame implements
 
 	}
 
+	private void drawGameOverScreen(Graphics g, String message) {
+        g.setColor(new Color(0, 0, 0, 100));
+        g.fillRect(0, 0, getWidth(), getHeight());
+
+        g.setColor(Color.WHITE);
+        Font font = new Font("Arial", Font.BOLD, 60);
+        g.setFont(font);
+        int messageWidth = g.getFontMetrics().stringWidth(message);
+        int x = (getWidth() - messageWidth) / 2;
+        int y = getHeight() / 2;
+
+        g.drawString(message, x, y);
+		
+		Font font2 = new Font("Arial", Font.BOLD, 40);
+        g.setFont(font2);
+		String scoreMessage = "Score " + score;
+		g.drawString(scoreMessage, x, y+50);
+    }
 
 	// implementation of methods in KeyListener interface
 
