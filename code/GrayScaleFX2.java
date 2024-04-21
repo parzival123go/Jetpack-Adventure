@@ -6,9 +6,8 @@ import java.awt.image.BufferedImage;
 
 public class GrayScaleFX2 implements ImageFX {
 
-	private static final int WIDTH = 120;		// width of the image
-	private static final int HEIGHT = 120;		// height of the image
-	private static final int YPOS = 250;		// vertical position of the image
+	private static final int WIDTH = 50;		// width of the image
+	private static final int HEIGHT = 70;		// height of the image
 
 	private GameWindow gw;
 
@@ -24,25 +23,32 @@ public class GrayScaleFX2 implements ImageFX {
 	boolean originalImage, grayImage;
 
 
-	public GrayScaleFX2 (GameWindow gw) {
-		this.gw=gw;
+	public GrayScaleFX2 (int x, int y,GameWindow gw) {
+		this.gw = gw;
 
 		Random random = new Random();
-		x = random.nextInt (gw.getWidth() - WIDTH);
-		y = YPOS;
+		this.x=x;
+		this.y=y;
 
 		time = 0;				// range is 0 to 40
 		timeChange = 1;				// set to 1
 		originalImage = true;
 		grayImage = false;
 
-		spriteImage = ImageManager.loadBufferedImage("images/Butterfly.png");
+		spriteImage = ImageManager.loadBufferedImage("code/images/speed.png");
 		copyImage = ImageManager.copyImage(spriteImage);		
 							//  make a copy of the original image
 		copyToGray();
 
 	}
 
+	public void setLocation(){
+        x=70;
+    }
+
+	public void remove(){
+        x=-70;
+    }
 
 	private int toGray (int pixel) {
 
@@ -104,12 +110,12 @@ public class GrayScaleFX2 implements ImageFX {
 	
 		time = time + timeChange;
 
-		if (time < 20) {			// original image shown for 20 units of time
+		if (time < 4) {			// original image shown for 20 units of time
 			originalImage = true;
 			grayImage = false;
 		}
 		else
-		if (time < 40) {			// gray scale image shown for 20 units of time
+		if (time < 8) {			// gray scale image shown for 20 units of time
 			originalImage = false;
 			grayImage = true;
 		}

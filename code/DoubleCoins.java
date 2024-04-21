@@ -33,6 +33,7 @@ public class DoubleCoins extends PowerUps{
     public void removeEffect(){
         if(isActive){
             mc.setDoubleCoins(false);
+            gw.setDCActive(false);
         }
     }
 
@@ -48,6 +49,7 @@ public class DoubleCoins extends PowerUps{
             isVisible = false;
             dx = 0;
             mc.setDoubleCoins(true);
+            gw.setDCActive(true);
             collision=true;
             timerStarted=true;
         }
@@ -63,13 +65,14 @@ public class DoubleCoins extends PowerUps{
 
         if(timer==300 && timerStarted){
             mc.setDoubleCoins(false);
+            gw.setDCActive(false);
             timerStarted=false;
             timer=0;
         }
     }
 
     public void loadImages(){
-        doubleCoinPickup = ImageManager.loadImage("code/images/doublecoins-rezised.png");
+        doubleCoinPickup = ImageManager.loadImage("code/images/doublecoins.png");
 
         width = doubleCoinPickup.getWidth(gw);
         height = doubleCoinPickup.getHeight(gw);

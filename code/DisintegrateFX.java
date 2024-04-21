@@ -6,9 +6,8 @@ import java.awt.image.BufferedImage;
 
 public class DisintegrateFX implements ImageFX {
 
-	private static final int WIDTH = 120;		// width of the image
-	private static final int HEIGHT = 120;		// height of the image
-	private static final int YPOS = 250;		// vertical position of the image
+	private static final int WIDTH = 70;		// width of the image
+	private static final int HEIGHT = 70;		// height of the image
 
 	private GameWindow gw;
 
@@ -23,22 +22,30 @@ public class DisintegrateFX implements ImageFX {
 	int time, timeChange;				// to control when the image is grayed
 
 
-	public DisintegrateFX (GameWindow gw) {
-		this.gw=gw;
+	public DisintegrateFX (int x, int y,GameWindow gw) {
+		this.gw = gw;
 
 		Random random = new Random();
-		x = random.nextInt (gw.getWidth() - WIDTH);
-		y = YPOS;
+		this.x=x;
+		this.y=y;
+		this.gw=gw;
 
 		time = 0;				// range is 0 to 70
 		timeChange = 1;				// how to increment time in game loop
 
-		spriteImage = ImageManager.loadBufferedImage("images/Butterfly.png");
+		spriteImage = ImageManager.loadBufferedImage("code/images/invincible.png");
 		copy = ImageManager.copyImage(spriteImage);		
 							//  make a copy of the original image
 
 	}
 
+	public void setLocation(){
+        x=70;
+    }
+
+	public void remove(){
+        x=-70;
+    }
 
   	public void eraseImageParts(BufferedImage im, int interval) {
 
@@ -58,25 +65,25 @@ public class DisintegrateFX implements ImageFX {
 
 	public void draw (Graphics2D g2) {
 
-		if (time == 10)
+		if (time == 5)
 			eraseImageParts(copy, 11);
 		else
-		if (time == 20)
+		if (time == 10)
 			eraseImageParts(copy, 7);
 		else
-		if (time == 30)
+		if (time == 15)
 			eraseImageParts(copy, 5);
 		else
-		if (time == 40)
+		if (time == 20)
 			eraseImageParts(copy, 3);
 		else
-		if (time == 50)
+		if (time == 25)
 			eraseImageParts(copy, 2);
 		else
-		if (time == 60)
+		if (time == 30)
 			eraseImageParts(copy, 1);
 		else
-		if (time == 70)
+		if (time == 35)
 			copy = ImageManager.copyImage(spriteImage);
 
 		g2.drawImage(copy, x, y, WIDTH, HEIGHT, null);
@@ -93,7 +100,7 @@ public class DisintegrateFX implements ImageFX {
 	
 		time = time + timeChange;
 
-		if (time > 70)			
+		if (time > 35)			
 			time = 0;
 	}
 

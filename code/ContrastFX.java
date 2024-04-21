@@ -6,9 +6,8 @@ import java.awt.image.BufferedImage;
 
 public class ContrastFX implements ImageFX {
 
-	private static final int WIDTH = 120;		// width of the image
-	private static final int HEIGHT = 120;		// height of the image
-	private static final int YPOS = 200;		// vertical position of the image
+	private static final int WIDTH = 50;		// width of the image
+	private static final int HEIGHT = 70;		// height of the image
 
 	private GameWindow gw;
 
@@ -22,17 +21,17 @@ public class ContrastFX implements ImageFX {
 
 	double contrast, contrastChange;		// to alter the contrast of the image
 
-	public ContrastFX (GameWindow gw) {
-		this.gw=gw;
+	public ContrastFX (int x, int y,GameWindow gw) {
+		this.gw = gw;
 
 		Random random = new Random();
-		x = random.nextInt (gw.getWidth() - WIDTH);
-		y = YPOS;
+		this.x=x;
+		this.y=y;
 
 		contrast = 1.0;				// range is 0 to 3.0
 		contrastChange = 0.01;			// increase of contrast on each update
 
-		spriteImage = ImageManager.loadBufferedImage("images/Butterfly.png");
+		spriteImage = ImageManager.loadBufferedImage("code/images/speed.png");
 
 	}
 

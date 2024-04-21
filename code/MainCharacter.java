@@ -306,11 +306,11 @@ public class MainCharacter extends Character{
     public void addCoins(int amnt){
         if(doubleCoins){
             this.coins+=2*amnt;
-            System.out.println("Coins: "+ coins);
+            gw.setCoins(coins);
         }
         else{
             this.coins+=amnt;
-            System.out.println("Coins: "+ coins);
+            gw.setCoins(coins);
         }
     }
 

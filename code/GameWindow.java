@@ -41,6 +41,9 @@ public class GameWindow extends JFrame implements
 	private GraphicsDevice device;			// used for full-screen exclusive mode 
 	private Graphics gScr;
 	private BufferStrategy bufferStrategy;
+	private Rectangle coinArea;
+	private Rectangle distanceArea;
+	private Rectangle powerUps;
 
 	private MainCharacter mainCharacter;
 	private ArrayList<Obstacles> obstacles;
@@ -53,6 +56,13 @@ public class GameWindow extends JFrame implements
 	private int windowHeight;
 	private int score;
 	private SepiaFX doubleCoinActive;
+	private DisintegrateFX invisibleActive;
+	private GrayScaleFX2 speedActive;
+	private boolean speedUpActive=false;
+	private boolean invActive=false;
+	private boolean dcActive=false;
+	private int coinsCount=0;
+	private int distanceCovered=0;
 
 	public GameWindow() {
  
@@ -115,7 +125,11 @@ public class GameWindow extends JFrame implements
 		// 	coins.add(new Coin(coinX + ((i+1)*100),coinY , mainCharacter, this));
 		// }
 
-		//doubleCoinActive = new SepiaFX(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-180), this);
+		doubleCoinActive = new SepiaFX(-70, 470, this);
+
+		invisibleActive = new DisintegrateFX(-70, 570, this);
+
+		speedActive = new GrayScaleFX2(-70, 670, this);
 		
 	}
 
@@ -182,9 +196,32 @@ public class GameWindow extends JFrame implements
 			coin.update();
 		}
 
-		if(doubleCoinActive!=null){
+		if(!dcActive)
+		doubleCoinActive.remove();
+
+		if(!invActive)
+		invisibleActive.remove();
+
+		if(!speedUpActive)
+		speedActive.remove();
+
+		if(doubleCoinActive!=null && dcActive){
+			doubleCoinActive.setLocation();
 			doubleCoinActive.update();
 		}
+
+		if(invisibleActive!=null && invActive){
+			invisibleActive.setLocation();
+			invisibleActive.update();
+		}
+
+		if(speedActive!=null && speedUpActive){
+			speedActive.setLocation();
+			speedActive.update();
+		}
+
+		if(!isPaused)
+		distanceCovered++;
 
 	}
 
@@ -211,9 +248,6 @@ public class GameWindow extends JFrame implements
 				bufferStrategy.show();
 			else
 				System.out.println("Contents of buffer lost.");
-      
-			// Sync the display on some systems.
-			// (on Linux, this fixes event queue problems)
 
 			Toolkit.getDefaultToolkit().sync();
 		}
@@ -243,6 +277,14 @@ public class GameWindow extends JFrame implements
 
 		if(doubleCoinActive!=null){
 			doubleCoinActive.draw(imageContext);
+		}
+
+		if(invisibleActive!=null){
+			invisibleActive.draw(imageContext);
+		}
+
+		if(speedActive!=null){
+			speedActive.draw(imageContext);
 		}
 
 		//Graphics2D g2 = (Graphics2D) getGraphics();	// get the graphics context for window
@@ -325,24 +367,7 @@ public class GameWindow extends JFrame implements
   	}
 
 
-	// Specify screen areas for the buttons and create bounding rectangles
-
-	private void setButtonAreas() {
-		
-		//  leftOffset is the distance of a button from the left side of the window.
-		//  Buttons are placed at the top of the window.
-
-		int leftOffset = 12;
-		pauseButtonArea = new Rectangle(leftOffset, 50, 150, 40);
-
-		startNewGameArea = new Rectangle(leftOffset, 70, 150, 40);
-
-		int quitLength = quit1Image.getWidth(null);
-		int quitHeight = quit1Image.getHeight(null);
-		quitButtonArea = new Rectangle(8, 100, 180, 50);
-	}
-
-	public void startNewGame() {	
+	  public void startNewGame() {	
 
 		if (gameThread == null || !isPaused) {
 			//soundManager.playClip ("background", true);
@@ -354,35 +379,70 @@ public class GameWindow extends JFrame implements
 		}
 	}
 
+	public void setCoins(int coins){
+		coinsCount=coins;
+	}
+
+	// Specify screen areas for the buttons and create bounding rectangles
+
+	private void setButtonAreas() {
+		
+		//  leftOffset is the distance of a button from the left side of the window.
+		//  Buttons are placed at the top of the window.
+
+		int leftOffset = 12;
+		pauseButtonArea = new Rectangle(leftOffset + 10, 50, 150, 40);
+
+		 coinArea = new Rectangle(leftOffset+5, 180, 180, 70);
+
+		 distanceArea = new Rectangle(leftOffset+5, 280, 180, 70);
+
+		 powerUps = new Rectangle(leftOffset+5, 400, 180, 370);
+
+		
+		int quitLength = quit1Image.getWidth(null);
+		int quitHeight = quit1Image.getHeight(null);
+		quitButtonArea = new Rectangle(8, 100, 180, 50);
+	}
+
 
 	private void drawButtons (Graphics g) {
 		Font oldFont, newFont;
 
 		oldFont = g.getFont();		// save current font to restore when finished
 	
-		newFont = new Font ("TimesRoman", Font.ITALIC + Font.BOLD, 18);
+		newFont = new Font ("TimesRoman", Font.ITALIC + Font.BOLD, 20);
 		g.setFont(newFont);		// set this as font for text on buttons
 
-    		g.setColor(Color.black);	// set outline colour of button
+    	g.setColor(Color.cyan);
 
-		// draw the pause 'button'
+		g.draw3DRect(coinArea.x, coinArea.y, coinArea.width, coinArea.height,true);
+		g.drawString("Coins: " + coinsCount, coinArea.x+35, coinArea.y+45);
 
-		g.setColor(Color.BLACK);
-		g.drawOval(pauseButtonArea.x, pauseButtonArea.y, 
-			   pauseButtonArea.width, pauseButtonArea.height);
+		g.setColor(Color.cyan);
+
+		g.draw3DRect(distanceArea.x, distanceArea.y, distanceArea.width, distanceArea.height,true);
+		g.drawString("Distance: " + distanceCovered, distanceArea.x+30, distanceArea.y+45);
+
+		g.setColor(Color.cyan);
+
+		g.draw3DRect(powerUps.x, powerUps.y, powerUps.width, powerUps.height,true);
+		g.drawString("Active Powerups", powerUps.x+10, powerUps.y+45);
+
+		g.setColor(Color.cyan);
+		g.draw3DRect(pauseButtonArea.x, pauseButtonArea.y, 
+			   pauseButtonArea.width, pauseButtonArea.height,true);
 
 		if (isOverPauseButton && !isStopped)
 			g.setColor(Color.WHITE);
 		else
-			g.setColor(Color.RED);	
+			g.setColor(Color.cyan);	
 
 		if (isPaused && !isStopped)
-			g.drawString("Paused", pauseButtonArea.x+45, pauseButtonArea.y+25);
+			g.drawString("Paused", pauseButtonArea.x+35, pauseButtonArea.y+25);
 		else
-			g.drawString("Pause", pauseButtonArea.x+55, pauseButtonArea.y+25);
+			g.drawString("Pause", pauseButtonArea.x+45, pauseButtonArea.y+25);
 
-
-		
 
 		// draw the quit button (an actual image that changes when the mouse moves over it)
 
@@ -392,7 +452,7 @@ public class GameWindow extends JFrame implements
 				
 		else
 		   g.drawImage(quit2Image, quitButtonArea.x, quitButtonArea.y, 180, 50, null);
-		    	       //quitButtonArea.width, quitButtonArea.height, null);
+		    	       //quitButtonArea.width, quitButtonArea.height, null);   	      
 
 		g.setFont(oldFont);		// reset font
 
@@ -461,8 +521,8 @@ public class GameWindow extends JFrame implements
 
 		if ((keyCode == KeyEvent.VK_ESCAPE) || (keyCode == KeyEvent.VK_Q) ||
              	   (keyCode == KeyEvent.VK_END)) {
-           		isRunning = false;		// user can quit anytime by pressing
-			return;				//  one of these keys (ESC, Q, END)			
+           		isRunning = false;		
+			return;					
          	}
 		else
 		if (keyCode == KeyEvent.VK_LEFT) {
@@ -520,6 +580,18 @@ public class GameWindow extends JFrame implements
 		}
 	}
 
+	public void setDCActive(boolean active){
+		dcActive=active;
+	}
+
+	public void setSpeedUpActive(boolean active){
+		speedUpActive=active;
+	}
+
+	public void setInvincActive(boolean active){
+		invActive=active;
+	}
+
 
 	public void keyTyped (KeyEvent e) {
 
@@ -574,12 +646,7 @@ public class GameWindow extends JFrame implements
 		if (isStopped && !isOverQuitButton) 	// don't do anything if game stopped
 			return;
 
-		// if (isOverStartNewButton) {			// mouse click on Stop button
-		// 	isStopped = true;
-		// 	isPaused = false;
-		// 	startNewGame();;
-		// }
-		// else
+
 		if (isOverPauseButton) {		// mouse click on Pause button
 			isPaused = !isPaused;     	// toggle pausing
 		}
@@ -598,7 +665,6 @@ public class GameWindow extends JFrame implements
 	private void testMouseMove(int x, int y) { 
 		if (isRunning) {
 			isOverPauseButton = pauseButtonArea.contains(x,y) ? true : false;
-			isOverStartNewButton = startNewGameArea.contains(x,y) ? true : false;
 			isOverQuitButton = quitButtonArea.contains(x,y) ? true : false;
 		}
 	}
