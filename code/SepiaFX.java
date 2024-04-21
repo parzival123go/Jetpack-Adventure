@@ -6,9 +6,8 @@ import java.awt.image.BufferedImage;
 
 public class SepiaFX implements ImageFX {
 
-	private static final int WIDTH = 120;		// width of the image
-	private static final int HEIGHT = 120;		// height of the image
-	private static final int YPOS = 250;		// vertical position of the image
+	private static final int WIDTH = 70;		// width of the image
+	private static final int HEIGHT = 60;		// height of the image
 
 	private GameWindow gw;
 
@@ -36,13 +35,21 @@ public class SepiaFX implements ImageFX {
 		originalImage = true;
 		sepiaImage = false;
 
-		spriteImage = ImageManager.loadBufferedImage("code/images/doublecoins-rezised.png");
+		spriteImage = ImageManager.loadBufferedImage("code/images/doublecoins.png");
 		copyImage = ImageManager.copyImage(spriteImage);		
 							//  make a copy of the original image
 		copyToSepia();
 
 	}
 
+	
+    public void setLocation(){
+        x=70;
+    }
+
+	public void remove(){
+        x=-70;
+    }
 
 	private int toSepia (int pixel) {
 
@@ -111,12 +118,12 @@ public class SepiaFX implements ImageFX {
 	
 		time = time + timeChange;
 
-		if (time < 20) {			// original image shown for 20 units of time
+		if (time < 4) {			// original image shown for 20 units of time
 			originalImage = true;
 			sepiaImage = false;
 		}
 		else
-		if (time < 40) {			// sepia image shown for 20 units of time
+		if (time < 8) {			// sepia image shown for 20 units of time
 			originalImage = false;
 			sepiaImage = true;
 		}

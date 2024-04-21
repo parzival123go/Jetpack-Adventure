@@ -49,6 +49,7 @@ public class SpeedUp extends PowerUps{
             dx = 0;
             collision=true;
             gw.setSpeedUp(true);
+            gw.setSpeedUpActive(true);
             mc.setInvincibility(true);
             timerStarted=true;
         }
@@ -63,6 +64,7 @@ public class SpeedUp extends PowerUps{
 
         if(timer==300 && timerStarted){
             gw.setSpeedUp(false);
+            gw.setSpeedUpActive(false);
             mc.setInvincibility(false);
             timerStarted=false;
             timer=0;

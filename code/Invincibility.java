@@ -27,6 +27,7 @@ public class Invincibility extends PowerUps{
         else{
             isActive = true;
             mc.setInvincibility(true);
+            gw.setInvincActive(true);
         }
     }
 
@@ -47,7 +48,8 @@ public class Invincibility extends PowerUps{
         if(collidesWithMc(x, y, width, height ) && !collision){
             isVisible = false;
             dx = 0;
-            mc.setInvincibility(true);            
+            mc.setInvincibility(true);  
+            gw.setInvincActive(true);          
             collision=true;
             timerStarted=true;
         }
@@ -62,6 +64,7 @@ public class Invincibility extends PowerUps{
 
         if(timer==300 && timerStarted){
             mc.setInvincibility(false);
+            gw.setInvincActive(false);
             timerStarted=false;
             timer=0;
         }
