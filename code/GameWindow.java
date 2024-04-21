@@ -116,6 +116,7 @@ public class GameWindow extends JFrame implements
 		// }
 
 		//doubleCoinActive = new SepiaFX(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-180), this);
+
 		
 	}
 
@@ -165,7 +166,7 @@ public class GameWindow extends JFrame implements
 		
 		if(!isPlayerDead()){
 			background.move(2);
-
+      
 			for (Obstacles ob : obstacles) {
 				ob.update();
 			}
@@ -254,7 +255,7 @@ public class GameWindow extends JFrame implements
 		if(isPlayerDead()){
 			drawGameOverScreen(g2, "Game Over");
 		}
-
+    
 		imageContext.dispose();
 		g2.dispose();
 	}
@@ -443,7 +444,7 @@ public class GameWindow extends JFrame implements
         int y = getHeight() / 2;
 
         g.drawString(message, x, y);
-
+        
 		Font font2 = new Font("Arial", Font.BOLD, 40);
         g.setFont(font2);
 		String scoreMessage = "Score " + score;

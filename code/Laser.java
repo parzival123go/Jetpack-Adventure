@@ -56,7 +56,11 @@ public class Laser extends Obstacles{
 
     public void loadImages(){
         laser = ImageManager.loadImage("code/images/laser.png");
-        height = 100;   
-        width = 250;   
+
+        // height = laser.getHeight(panel);
+        // width = laser.getWidth(panel);
+        height = 100;   // 720/4
+        width = 250;    // 1280/4
+
     }
 }
