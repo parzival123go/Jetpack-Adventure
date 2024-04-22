@@ -64,6 +64,7 @@ public class GameWindow extends JFrame implements
 	private boolean isDead=false;
 	private int coinsCount=0;
 	private int distanceCovered=0;
+	private int level = 1;
 
 	public GameWindow() {
  
@@ -175,6 +176,15 @@ public class GameWindow extends JFrame implements
 	public void gameUpdate () {
 		
 		if(!isPlayerDead()){
+
+			if(background.getCounter() == 2){
+				// System.out.println("GameWindow: counter hit 2");
+				background.setBgImage2("code/images/backgrounds/"+random.nextInt(2,4)+"_game_background - Copy.png");
+			
+				background.setCounter(0);
+				level++;
+			}
+
 			background.move(2);
 
 			if(!isPaused)
@@ -426,7 +436,7 @@ public class GameWindow extends JFrame implements
 
 		g.draw3DRect(distanceArea.x, distanceArea.y, distanceArea.width, distanceArea.height,true);
 		g.drawString("Distance: " + distanceCovered, distanceArea.x+30, distanceArea.y+45);
-
+		g.drawString("Level: "+ level, distanceArea.x+30, distanceArea.y+70);
 		g.setColor(Color.cyan);
 
 		g.draw3DRect(powerUps.x, powerUps.y, powerUps.width, powerUps.height,true);
