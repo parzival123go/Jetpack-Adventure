@@ -140,17 +140,12 @@ public class MainCharacter extends Character{
     public void damageMc(){
         if(damageable){
             health--;
+            gw.updateHealth();
             if(health <=0){
                 damageable = false;
                 isDead = true;
                 animations.get("fly").stop();
-                animations.get("run").stop(); 
-                
-                
-                sm.stopClip("fly");
-                sm.stopClip("level3");
-                sm.stopClip("level2");
-                sm.stopClip("leve1");
+                animations.get("run").stop();
                 sm.playClip("die", false);
 		        sm.playClip("gameOver", true);
                 animations.get("dyingStanding").start();

@@ -24,6 +24,7 @@ public class GameWindow extends JFrame implements
 
 	private Image quit1Image;			// first image for quit button
 	private Image quit2Image;			// second image for quit button
+	private Image[] hearts = new Image[6];
 
 	private boolean finishedOff = false;		// used when the game terminates
 
@@ -64,6 +65,8 @@ public class GameWindow extends JFrame implements
 	private boolean isDead=false;
 	private int coinsCount=0;
 	private int distanceCovered=0;
+	private int level = 1;
+	private int health = 5;
 
 	public GameWindow() {
  
@@ -73,6 +76,10 @@ public class GameWindow extends JFrame implements
 
 		quit1Image = ImageManager.loadImage("code/images/Quit1.png");
 		quit2Image = ImageManager.loadImage("code/images/Quit2.png");
+
+		for (int i = 0; i <6; i++) {
+            hearts[i] = ImageManager.loadImage("code/images/hearts" + i + ".png");
+        }
 
 		setButtonAreas();
 
@@ -90,15 +97,15 @@ public class GameWindow extends JFrame implements
 
 	public void createGameEntities() {
 
-		background = new Background(this, "code/images/backgrounds/1_game_background - Copy.png", 10);
+		background = new Background(this, "code/images/backgrounds/background1.png", 10);
 		mainCharacter= new MainCharacter(this);
 		obstacles = new ArrayList<Obstacles>();
 		powerups = new ArrayList<PowerUps>();
 		coins = new ArrayList<Coin>();
 
-		// for (int i = 0; i < 1; i++) {
-		// 	obstacles.add(new Missile(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-200), mainCharacter, this));
-		//  }
+		for (int i = 0; i < 1; i++) {
+			obstacles.add(new Missile(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-200), mainCharacter, this));
+		 }
 		// for (int i = 0; i < 1; i++) {
 		// 	obstacles.add(new Laser(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-180), mainCharacter, this));
 		// }
@@ -122,11 +129,11 @@ public class GameWindow extends JFrame implements
 		// 	coins.add(new Coin(coinX + ((i+1)*100),coinY , mainCharacter, this));
 		// }
 
-		doubleCoinActive = new SepiaFX(-70, 470, this);
+		doubleCoinActive = new SepiaFX(-70, 520, this);
 
-		invisibleActive = new DisintegrateFX(-70, 570, this);
+		invisibleActive = new DisintegrateFX(-70, 620, this);
 
-		speedActive = new GrayScaleFX2(-70, 670, this);
+		speedActive = new GrayScaleFX2(-70, 720, this);
 		
 	}
 
@@ -175,6 +182,14 @@ public class GameWindow extends JFrame implements
 	public void gameUpdate () {
 		
 		if(!isPlayerDead()){
+
+			if(background.getCounter() == 2){
+				// System.out.println("GameWindow: counter hit 2");
+				background.setBgImage2("code/images/backgrounds/background"+random.nextInt(2,24)+".png");
+				background.setCounter(0);
+				level++;
+			}
+
 			background.move(2);
 
 			if(!isPaused)
@@ -228,18 +243,13 @@ public class GameWindow extends JFrame implements
 
 	}
 
+	public void updateHealth(){
+		health--;
+	}
+
 	private Boolean isPlayerDead(){
 		return mainCharacter.getIsDead();
 	}
-	// public void updateBat (int direction) {
-
-	// 	if (isPaused)
-	// 		return;
-
-	// 	if (background != null) {
-	// 		background.move(direction);
-	// 	}
-	// }
 
 	private void screenUpdate() { 
 
@@ -298,6 +308,30 @@ public class GameWindow extends JFrame implements
 
 		if(isPlayerDead()){
 			drawGameOverScreen(g2, "Game Over");
+		}
+		// Draw hearts based on health
+		if (health == 5) {
+			g2.drawImage(hearts[5], 17, 370, 180, 50, null); // Draw 5 hearts initially
+		} else if (health == 4) {
+			g2.clearRect(17, 370, 180, 50);
+			g2.drawImage(hearts[4], 17, 370, 180, 50, null); // Draw 4 hearts if health decreases to 4
+		}else if (health == 3) {
+			g2.clearRect(17, 370, 180, 50);
+			g2.drawImage(hearts[3], 17, 370, 180, 50, null); // Draw 4 hearts if health decreases to 4
+		}else if (health == 2) {
+			g2.clearRect(17, 370, 180, 50);
+			g2.drawImage(hearts[2], 17, 370, 180, 50, null); // Draw 4 hearts if health decreases to 4
+		}else if (health == 1) {
+			g2.clearRect(17, 370, 180, 50);
+			g2.drawImage(hearts[1], 17, 370, 180, 50, null); // Draw 4 hearts if health decreases to 4
+		}else {
+			 
+			soundManager.stopClip("leve1");             
+			soundManager.stopClip("level2");            
+			soundManager.stopClip("fly");
+			soundManager.stopClip("level3");
+			g2.clearRect(17, 370, 180, 50);
+			g2.drawImage(hearts[0], 17, 370, 180, 50, null); // Draw 4 hearts if health decreases to 4
 		}
 
 		imageContext.dispose();
@@ -400,7 +434,7 @@ public class GameWindow extends JFrame implements
 
 		 distanceArea = new Rectangle(leftOffset+5, 280, 180, 70);
 
-		 powerUps = new Rectangle(leftOffset+5, 400, 180, 370);
+		 powerUps = new Rectangle(leftOffset+5, 450, 180, 370);
 
 		
 		int quitLength = quit1Image.getWidth(null);
@@ -425,8 +459,8 @@ public class GameWindow extends JFrame implements
 		g.setColor(Color.cyan);
 
 		g.draw3DRect(distanceArea.x, distanceArea.y, distanceArea.width, distanceArea.height,true);
-		g.drawString("Distance: " + distanceCovered, distanceArea.x+30, distanceArea.y+45);
-
+		g.drawString("Distance: " + distanceCovered, distanceArea.x+30, distanceArea.y+25);
+		g.drawString("Level: "+ level, distanceArea.x+30, distanceArea.y+60);
 		g.setColor(Color.cyan);
 
 		g.draw3DRect(powerUps.x, powerUps.y, powerUps.width, powerUps.height,true);
