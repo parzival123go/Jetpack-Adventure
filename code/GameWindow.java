@@ -104,30 +104,30 @@ public class GameWindow extends JFrame implements
 		coins = new ArrayList<Coin>();
 
 		for (int i = 0; i < 1; i++) {
-			obstacles.add(new Missile(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-200), mainCharacter, this));
+			obstacles.add(new Missile(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-400), mainCharacter, this));
 		 }
-		// for (int i = 0; i < 1; i++) {
-		// 	obstacles.add(new Laser(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-180), mainCharacter, this));
-		// }
+		for (int i = 0; i < 1; i++) {
+			obstacles.add(new Laser(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-240), mainCharacter, this));
+		}
 
-		// for (int i = 0; i < 1; i++){
-		// 	powerups.add(new DoubleCoins(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-100), mainCharacter, this));
-		// }
+		for (int i = 0; i < 1; i++){
+			powerups.add(new DoubleCoins(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-500), mainCharacter, this));
+		}
 
-		// for (int i = 0; i < 1; i++){
-		// 	powerups.add(new Invincibility(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-200), mainCharacter, this));
-		// }
+		for (int i = 0; i < 1; i++){
+			powerups.add(new Invincibility(random.nextInt(windowWidth, windowWidth*2), random.nextInt(0, windowHeight-500), mainCharacter, this));
+		}
 
-		// for (int i = 0; i < 1; i++){
-		// 	powerups.add(new SpeedUp(random.nextInt(windowWidth, windowWidth*2), random.nextInt(20, windowHeight-200), mainCharacter, this));
-		// }
+		for (int i = 0; i < 1; i++){
+			powerups.add(new SpeedUp(random.nextInt(windowWidth, windowWidth*2), random.nextInt(20, windowHeight-500), mainCharacter, this));
+		}
 
-		// int coinY,coinX;
-		// coinY=random.nextInt(0, windowHeight-100);
-		// coinX= random.nextInt(windowWidth, windowWidth*2);
-		// for (int i = 0; i < 5; i++){
-		// 	coins.add(new Coin(coinX + ((i+1)*100),coinY , mainCharacter, this));
-		// }
+		int coinY,coinX;
+		coinY=random.nextInt(0, windowHeight-800);
+		coinX= random.nextInt(windowWidth, windowWidth*2);
+		for (int i = 0; i < 5; i++){
+			coins.add(new Coin(coinX + ((i+1)*100),coinY , mainCharacter, this));
+		}
 
 		doubleCoinActive = new SepiaFX(-70, 520, this);
 
@@ -189,6 +189,8 @@ public class GameWindow extends JFrame implements
 
 				background.setCounter(0);
 				level++;
+				increaseSpeed();
+
 			}
 
 			background.move(2);
@@ -241,6 +243,20 @@ public class GameWindow extends JFrame implements
 			speedActive.update();
 		}
 
+
+	}
+
+	private void increaseSpeed(){
+		for(Obstacles ob: obstacles){
+			ob.setDX(1);
+		}
+		for(PowerUps p: powerups){
+			p.setDX(1);
+		}
+		for(Coin c: coins){
+			c.setDX(1);
+		}
+		background.setBgDX(1);
 
 	}
 

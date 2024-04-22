@@ -123,4 +123,8 @@ public class Background {
 		this.counter = counter;
 	}
 
+	public void setBgDX(int incr) {
+		this.bgDX += incr;
+	}
+
 }

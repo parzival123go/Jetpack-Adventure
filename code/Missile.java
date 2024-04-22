@@ -32,7 +32,7 @@ public class Missile extends Obstacles{
     }
     
     public void update(){
-        if(collidesWithMc(x, y, width, height) && !mc.getInvincibility() && !collision){         
+        if(collidesWithMc(x, y, width/2, height/2) && !mc.getInvincibility() && !collision){         
             collision=true;
             setLocation();
             sm.playClip("missile",false);
@@ -50,7 +50,7 @@ public class Missile extends Obstacles{
 
     public void setLocation(){
         x += random.nextInt(gw.getWidth(), gw.getWidth()*2);
-        y = random.nextInt(0, gw.getHeight()-100);
+        y = random.nextInt(0, gw.getHeight()-200);
         collision=false;
     }
     

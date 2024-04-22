@@ -82,7 +82,7 @@ public class SpeedUp extends PowerUps{
 
     public void setLocation(){
         x += random.nextInt(gw.getWidth()*3, gw.getWidth()*4);
-        y = random.nextInt(0, gw.getHeight()-100);
+        y = random.nextInt(0, gw.getHeight()-200);
         collision=false;
     }
 

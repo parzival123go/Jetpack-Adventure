@@ -38,7 +38,7 @@ public class MainCharacter extends Character{
 
     public void start(){
         x = 400;
-        y = gw.getHeight()/2 + 195;
+        y = gw.getHeight()/2 + 255;
         isOnGround = true;
         flying=false;
         damageable = true;
@@ -72,8 +72,8 @@ public class MainCharacter extends Character{
                 animations.get("fly").update();
                 y+=15;
 
-                if(y>gw.getHeight()/2 + 195){
-                    y=gw.getHeight()/2 + 195;
+                if(y>gw.getHeight()/2 + 255){
+                    y=gw.getHeight()/2 + 255;
                     flying=false;
                     falling=false;
                     isOnGround=true;
@@ -156,7 +156,7 @@ public class MainCharacter extends Character{
     }
 
     public Rectangle2D.Double getBoundingRectangle() {
-        return new Rectangle2D.Double (x, y, width, height);
+        return new Rectangle2D.Double (x, y, width, height/2);
     }
 
     public void loadImages(){

@@ -25,4 +25,8 @@ public abstract class Obstacles extends GameObjects{
     public int getY(){
         return y;
     }
+
+    public void setDX(int incr){
+        dx-=incr;
+    }
 }
