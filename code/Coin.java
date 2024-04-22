@@ -49,7 +49,7 @@ public class Coin extends Obstacles{
 
     public void setLocation(){
         x += random.nextInt(gw.getWidth(), gw.getWidth()*2);
-        y = random.nextInt(0, gw.getHeight()-100);
+        y = random.nextInt(0, gw.getHeight()-200);
         collision=false;
     }
 

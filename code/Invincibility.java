@@ -80,7 +80,7 @@ public class Invincibility extends PowerUps{
 
     public void setLocation(){
         x += random.nextInt(gw.getWidth()*4, gw.getWidth()*5);
-        y = random.nextInt(0, gw.getHeight()-100);
+        y = random.nextInt(0, gw.getHeight()-200);
         collision=false;
     }
 
