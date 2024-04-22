@@ -95,10 +95,21 @@ public class SoundManager {				// a Singleton class
 
 
     	public void stopClip(String title) {
-		Clip clip = getClip(title);
-		if (clip != null) {
-			clip.stop();
-		}
+			Clip clip = getClip(title);
+			if (clip != null) {
+				clip.stop();
+			}
     	}
+
+		public void setVolume (String title, float volume) {
+			Clip clip = getClip(title);
+	
+			FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+		
+			float range = gainControl.getMaximum() - gainControl.getMinimum();
+			float gain = (range * volume) + gainControl.getMinimum();
+	
+			gainControl.setValue(gain);
+		}
 
 }
