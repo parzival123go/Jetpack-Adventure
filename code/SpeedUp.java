@@ -1,5 +1,6 @@
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.util.Random;
 
 import javax.swing.JPanel;
 
@@ -7,6 +8,7 @@ public class SpeedUp extends PowerUps{
     Image doubleCoinPickup;
     private GameWindow gw;
     SoundManager sm;
+    private Random random;
     private int timer=0;
     private boolean timerStarted=false;
     private boolean collision;
@@ -17,6 +19,7 @@ public class SpeedUp extends PowerUps{
         this.x = x;
         dx = -10;
         dy = 0;
+        random = new Random();
         isVisible = true;
         isActive = false;
         collision=false;
@@ -49,6 +52,7 @@ public class SpeedUp extends PowerUps{
         if(collidesWithMc(x, y, width, height) && !collision){
             sm.playClip("speed", false);
             collision=true;
+            setLocation();
             gw.setSpeedUp(true);
             gw.setSpeedUpActive(true);
             mc.setInvincibility(true);
@@ -57,6 +61,9 @@ public class SpeedUp extends PowerUps{
         else{
             x+=dx;
         }
+
+        if(x<0)
+        setLocation();
 
         if(timerStarted){
             timer++;
@@ -71,6 +78,12 @@ public class SpeedUp extends PowerUps{
             timer=0;
         }
 
+    }
+
+    public void setLocation(){
+        x += random.nextInt(gw.getWidth()*3, gw.getWidth()*4);
+        y = random.nextInt(0, gw.getHeight()-100);
+        collision=false;
     }
 
     public void loadImages(){
