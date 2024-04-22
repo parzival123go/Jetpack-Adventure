@@ -189,6 +189,8 @@ public class GameWindow extends JFrame implements
 
 				background.setCounter(0);
 				level++;
+				increaseSpeed();
+
 			}
 
 			background.move(2);
@@ -241,6 +243,20 @@ public class GameWindow extends JFrame implements
 			speedActive.update();
 		}
 
+
+	}
+
+	private void increaseSpeed(){
+		for(Obstacles ob: obstacles){
+			ob.setDX(1);
+		}
+		for(PowerUps p: powerups){
+			p.setDX(1);
+		}
+		for(Coin c: coins){
+			c.setDX(1);
+		}
+		background.setBgDX(1);
 
 	}
 
