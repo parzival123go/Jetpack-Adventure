@@ -186,6 +186,7 @@ public class GameWindow extends JFrame implements
 			if(background.getCounter() == 2){
 				// System.out.println("GameWindow: counter hit 2");
 				background.setBgImage2("code/images/backgrounds/background"+random.nextInt(2,24)+".png");
+
 				background.setCounter(0);
 				level++;
 			}
