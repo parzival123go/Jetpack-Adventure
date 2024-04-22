@@ -91,7 +91,7 @@ public class GameWindow extends JFrame implements
 
 	public void createGameEntities() {
 
-		background = new Background(this, "code/images/backgrounds/1_game_background - Copy.png", 10);
+		background = new Background(this, "code/images/backgrounds/background1.png", 10);
 		mainCharacter= new MainCharacter(this);
 		obstacles = new ArrayList<Obstacles>();
 		powerups = new ArrayList<PowerUps>();
@@ -179,7 +179,7 @@ public class GameWindow extends JFrame implements
 
 			if(background.getCounter() == 2){
 				// System.out.println("GameWindow: counter hit 2");
-				background.setBgImage2("code/images/backgrounds/"+random.nextInt(2,4)+"_game_background - Copy.png");
+				background.setBgImage2("code/images/backgrounds/background"+random.nextInt(2,24)+".png");
 			
 				background.setCounter(0);
 				level++;
