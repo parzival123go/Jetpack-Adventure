@@ -27,6 +27,6 @@ Power-ups appear randomly throughout the level and provide temporary advantages 
 Each level presents unique challenges, with obstacles becoming more difficult to avoid and navigate around as the player progresses (Obstacles increase in speed).
 The primary goal of a player is to vertically maneuver the character, with the use of the spacebar key, from the obstacles, collecting power ups and coins to achieve the highest score possible (Coins collected & Distance traveled).
 
-<h1>>Object Oriented Model</h1
+<h1>Object Oriented Model</h1
 
-
+![Comp3609 Project (2)](https://github.com/parzival123go/Jetpack-Adventure/assets/121559078/44ee8905-9b87-4b30-a935-f3cd5152804a)
