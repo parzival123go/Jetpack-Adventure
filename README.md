@@ -7,7 +7,7 @@ Jetpack Adventure immerses players in an adrenaline-fueled experience, where the
 <h1>Gameplay Overview</h1>
 The game combines intuitive controls, engaging mechanics and dynamic level generation to deliver a captivating experience. Players control the character's vertical movement using keyboard input, while horizontal movement is automatic. The primary objective is to progress through levels, avoiding obstacles and collecting coins to increase the score. Health is set to a limit of 5, collisions with obstacles result in a loss of life. Power-ups provide temporary enhancements, adding depth to the gameplay.
 
-<h1>>Implemented Features</h1
+<h1>Implemented Features</h1
 Key features include:
 
 <h2>Player Character:</h2> A courageous adventurer with a jetpack, capable of vertical movement controlled by the player.
